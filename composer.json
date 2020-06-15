@@ -1,0 +1,10 @@
+{
+    "name": "klako/scoutorg-joomla",
+    "description": "A joomla package with scoutorg based user management and tools.",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {
+        "klako/scoutorg": "^0.0"
+    }
+}

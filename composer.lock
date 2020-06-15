@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "dfbdec1df1f82867b2d1eb4884410c8e",
+    "packages": [
+        {
+            "name": "klako/scoutorg",
+            "version": "v0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Klako/scoutorg.git",
+                "reference": "26e48a925aa94f70812a897a7d683fd4d9e56f71"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Klako/scoutorg/zipball/26e48a925aa94f70812a897a7d683fd4d9e56f71",
+                "reference": "26e48a925aa94f70812a897a7d683fd4d9e56f71",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "ext-pdo": "*",
+                "ext-pdo_sqlite": "*",
+                "php": ">=7.3",
+                "phpunit/phpunit": "^8.4",
+                "slim/psr7": "^1.0",
+                "slim/slim": "^4.4",
+                "symfony/process": "^5.0",
+                "tuupola/slim-basic-auth": "^3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Scouterna\\Scoutorg\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for fetching scout group information.",
+            "time": "2020-02-08T18:06:04+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
