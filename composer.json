@@ -4,7 +4,16 @@
     "type": "project",
     "license": "MIT",
     "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "http://github.com/splrk/joomla-extension-builder"
+        }
+    ],
     "require": {
         "klako/scoutorg": "^0.0"
+    },
+    "require-dev": {
+        "joomla/extension-builder": "0.1"
     }
 }
