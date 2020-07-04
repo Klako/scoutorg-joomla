@@ -2,8 +2,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Table;
 
-class ScoutOrgModelUserprofilefield extends JModelAdmin
+class ScoutOrgModelUserprofilefield extends AdminModel
 {
     /**
      * Method to get a table object, load it if necessary.
@@ -18,7 +21,7 @@ class ScoutOrgModelUserprofilefield extends JModelAdmin
      */
     public function getTable($type = 'Userprofilefield', $prefix = 'ScoutOrgTable', $config = array())
     {
-        return JTable::getInstance($type, $prefix, $config);
+        return Table::getInstance($type, $prefix, $config);
     }
 
     /**
@@ -60,7 +63,7 @@ class ScoutOrgModelUserprofilefield extends JModelAdmin
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = JFactory::getApplication()->getUserState(
+        $data = Factory::getApplication()->getUserState(
             'com_scoutorg.edit.userprofilefield.data',
             array()
         );

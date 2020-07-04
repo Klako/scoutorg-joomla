@@ -1,10 +1,16 @@
 <?php
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 /**
  * @package Joomla.Administrator
  * @subpackage com_scoutorg
  */
 
-class ScoutOrgViewTroops extends JViewLegacy {
+class ScoutOrgViewTroops extends HtmlView {
     /**
 	 * Display the troops view
 	 * @param string $tpl
@@ -23,15 +29,15 @@ class ScoutOrgViewTroops extends JViewLegacy {
 	}
 
 	private function setDocument() {
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_SCOUTORG_ADMINISTRATION'));
+		$document = Factory::getDocument();
+		$document->setTitle(Text::_('COM_SCOUTORG_ADMINISTRATION'));
 		$document->addScript(__DIR__.'/submitbutton.js');
 	}
 
 	private function addToolbar() {	
-		JToolBarHelper::title(JText::_('COM_SCOUTORG_ADMINISTRATION'), 'generic.png');
-		JToolBarHelper::addNew('troop.add');
-		JToolBarHelper::editList('troop.edit');
-		JToolBarHelper::deleteList('', 'troops.delete');
+		ToolbarHelper::title(Text::_('COM_SCOUTORG_ADMINISTRATION'), 'generic.png');
+		ToolBarHelper::addNew('troop.add');
+		ToolBarHelper::editList('troop.edit');
+		ToolBarHelper::deleteList('', 'troops.delete');
 	}
 }

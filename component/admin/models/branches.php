@@ -1,6 +1,8 @@
 <?php
 
-class ScoutOrgModelBranches extends JModelList {
+use Joomla\CMS\MVC\Model\ListModel;
+
+class ScoutOrgModelBranches extends ListModel {
     /**
 	 * Method to build an SQL query to load the list data.
 	 *
@@ -9,7 +11,7 @@ class ScoutOrgModelBranches extends JModelList {
 	protected function getListQuery()
 	{
 		// Initialize variables.
-		$db    = JFactory::getDbo();
+		$db    = Joomla\CMS\Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.

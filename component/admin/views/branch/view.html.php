@@ -1,6 +1,11 @@
 <?php
 
-class ScoutOrgViewBranch extends JViewLegacy
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
+class ScoutOrgViewBranch extends HtmlView
 {
     protected $form;
     protected $item;
@@ -43,24 +48,24 @@ class ScoutOrgViewBranch extends JViewLegacy
      */
     protected function addToolBar()
     {
-        $input = JFactory::getApplication()->input;
+        $input = Factory::getApplication()->input;
 
         // Hide Joomla Administrator Main menu
         $input->set('hidemainmenu', true);
 
         $isNew = ($this->item->id == 0);
 
-        JToolBarHelper::title($isNew ? JText::_('COM_SCOUTORG_MANAGER_BRANCH_NEW')
-                                     : JText::_('COM_SCOUTORG_MANAGER_BRANCH_EDIT'), 'branch');
+        ToolbarHelper::title($isNew ? Text::_('COM_SCOUTORG_MANAGER_BRANCH_NEW')
+                                     : Text::_('COM_SCOUTORG_MANAGER_BRANCH_EDIT'), 'branch');
         // Build the actions for new and existing records.
         
-        JToolBarHelper::apply('branch.apply', 'JTOOLBAR_APPLY');
-        JToolBarHelper::save('branch.save', 'JTOOLBAR_SAVE');
+        ToolBarHelper::apply('branch.apply', 'JTOOLBAR_APPLY');
+        ToolBarHelper::save('branch.save', 'JTOOLBAR_SAVE');
 
         if ($isNew) {
-            JToolBarHelper::cancel('branch.cancel', 'JTOOLBAR_CANCEL');
+            ToolBarHelper::cancel('branch.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolBarHelper::cancel('branch.cancel', 'JTOOLBAR_CLOSE');
+            ToolBarHelper::cancel('branch.cancel', 'JTOOLBAR_CLOSE');
         }
     }
     /**
@@ -71,10 +76,10 @@ class ScoutOrgViewBranch extends JViewLegacy
     protected function setDocument()
     {
         $isNew = ($this->item->id == 0);
-        $document = JFactory::getDocument();
-        $document->setTitle($isNew ? JText::_('COM_SCOUTORG_MANAGER_BRANCH_NEW')
-                                   : JText::_('COM_SCOUTORG_MANAGER_BRANCH_EDIT'));
+        $document = Factory::getDocument();
+        $document->setTitle($isNew ? Text::_('COM_SCOUTORG_MANAGER_BRANCH_NEW')
+                                   : Text::_('COM_SCOUTORG_MANAGER_BRANCH_EDIT'));
         $document->addScript(__DIR__.'/submitbutton.js');
-        JText::script('COM_SCOUTORG_ERROR_INVALIDINPUT');
+        Text::script('COM_SCOUTORG_ERROR_INVALIDINPUT');
     }
 }

@@ -1,8 +1,12 @@
 <?php
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 defined('_JEXEC') or die('Restricted Access');
 
-JHtml::_('formbehavior.chosen', 'select');
+HTMLHelper::_('formbehavior.chosen', 'select');
 
 ?>
 <form action="index.php?option=com_scoutorg&view=troops" method="post" id="adminForm" name="adminForm">
@@ -12,24 +16,24 @@ JHtml::_('formbehavior.chosen', 'select');
 	<div id="j-main-container" class="span10 j-toggle-main">
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped table-hover">
 				<thead>
 				<tr>
-					<th width="1%"><?= JText::_('COM_SCOUTORG_NUM') ?></th>
+					<th width="1%"><?= Text::_('COM_SCOUTORG_NUM') ?></th>
 					<th width="2%">
-						<?= JHtml::_('grid.checkall'); ?>
+						<?= HTMLHelper::_('grid.checkall'); ?>
 					</th>
 					<th width="45%">
-						<?= JText::_('COM_SCOUTORG_TROOP_TROOP_LABEL') ?>
+						<?= Text::_('COM_SCOUTORG_TROOP_TROOP_LABEL') ?>
 					</th>
         	        <th width="45%">
-        	            <?= JText::_('COM_SCOUTORG_TROOP_BRANCH_LABEL') ?>
+        	            <?= Text::_('COM_SCOUTORG_TROOP_BRANCH_LABEL') ?>
         	        </th>
 					<th width="2%">
-						<?= JText::_('COM_SCOUTORG_TROOP_ID_LABEL') ?>
+						<?= Text::_('COM_SCOUTORG_TROOP_ID_LABEL') ?>
 					</th>
 				</tr>
 				</thead>
@@ -42,7 +46,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				</tfoot>
 				<tbody>
 					<?php foreach ($this->items as $i => $row) :
-        	            $link = JRoute::_('index.php?option=com_scoutorg&task=troop.edit&id=' . $row->id);
+        	            $link = Route::_('index.php?option=com_scoutorg&task=troop.edit&id=' . $row->id);
         	            jimport('scoutorg.loader');
         	            $troops = ScoutOrgLoader::load()->getScoutGroup()->getTroops(true);
 						$troop = $troops[intval($row->troop)];
@@ -52,11 +56,11 @@ JHtml::_('formbehavior.chosen', 'select');
 								<?= $this->pagination->getRowOffset($i); ?>
 							</td>
 							<td>
-								<?= JHtml::_('grid.id', $i, $row->id); ?>
+								<?= HTMLHelper::_('grid.id', $i, $row->id); ?>
 							</td>
 							<?php if ($troop) : ?>
 								<td>
-									<a href="<?= $link ?>" title="<?= JText::_('COM_SCOUTORG_EDIT_TROOP') ?>">
+									<a href="<?= $link ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_TROOP') ?>">
 										<?= $troop->getName() ?>
 									</a>
 								</td>
@@ -65,8 +69,8 @@ JHtml::_('formbehavior.chosen', 'select');
         	                	</td>
 							<?php else : ?>
 								<td>
-									<a href="<?= $link ?>" title ="<?= JText::_('COM_SCOUTORG_ERROR_TROOP_NOT_FOUND') ?>">
-										<?= $row->troop.': '.JText::_('COM_SCOUTORG_ERROR_TROOP_NOT_FOUND') ?>
+									<a href="<?= $link ?>" title ="<?= Text::_('COM_SCOUTORG_ERROR_TROOP_NOT_FOUND') ?>">
+										<?= $row->troop.': '.Text::_('COM_SCOUTORG_ERROR_TROOP_NOT_FOUND') ?>
 									</a>
 								</td>
 								<td>
@@ -83,7 +87,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		<?php endif; ?>
 		<input type="hidden" name="task" value=""/>
 		<input type="hidden" name="boxchecked" value="0"/>
-		<?= JHtml::_('form.token'); ?>
+		<?= HTMLHelper::_('form.token'); ?>
 	</div>
 </form>
 

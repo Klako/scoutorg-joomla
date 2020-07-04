@@ -2,8 +2,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\MVC\Model\AdminModel;
 
-class ScoutOrgModelBranch extends JModelAdmin
+class ScoutorgModelBranch extends AdminModel
 {
     /**
      * Method to get a table object, load it if necessary.
@@ -12,13 +13,13 @@ class ScoutOrgModelBranch extends JModelAdmin
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  JTable  A JTable object
+     * @return  Joomla\CMS\Table\Table  A JTable object
      *
      * @since   1.6
      */
     public function getTable($type = 'Branch', $prefix = 'ScoutOrgTable', $config = array())
     {
-        return JTable::getInstance($type, $prefix, $config);
+        return Joomla\CMS\Table\Table::getInstance($type, $prefix, $config);
     }
 
     /**
@@ -60,7 +61,7 @@ class ScoutOrgModelBranch extends JModelAdmin
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = JFactory::getApplication()->getUserState(
+        $data = \Joomla\CMS\Factory::getApplication()->getUserState(
             'com_scoutorg.edit.branch.data',
             array()
         );

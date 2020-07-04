@@ -1,8 +1,11 @@
 <?php
 
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die('Restricted access');
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 class JFormFieldTroops extends JFormFieldList
 {
@@ -19,13 +22,13 @@ class JFormFieldTroops extends JFormFieldList
     protected function getOptions()
     {
         jimport('scoutorg.loader');
-        $scoutOrg = ScoutOrgLoader::load();
-        $troops = $scoutOrg->getScoutGroup()->getTroops(true);
+        $builder = ScoutOrgLoader::load();
+        $troops = $builder->troops;
 
         $options  = array();
 
         foreach ($troops as $id => $troop) {
-            $options[] = JHtml::_('select.option', $id, $troop->getName());
+            $options[] = HTMLHelper::_('select.option', $id, $troop->getName());
         }
 
         $options = array_merge(parent::getOptions(), $options);

@@ -1,6 +1,11 @@
 <?php
 
-class ScoutOrgTableTroop extends JTable
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Table\Table;
+
+class ScoutOrgTableTroop extends Table
 {
     /**
      * Constructor
@@ -14,7 +19,7 @@ class ScoutOrgTableTroop extends JTable
 
     public function check()
     {
-        $db = JFactory::getDbo();
+        $db = Factory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select('id, troop')
@@ -23,7 +28,8 @@ class ScoutOrgTableTroop extends JTable
         $db->setQuery($query);
 
         if (($result = $db->loadNextObject()) && $result->id != $this->id) {
-            $this->setError(JText::_('COM_SCOUTORG_ERROR_DUPLICATEID'));
+            /** @var CMSObject $this */
+            $this->setError(Text::_('COM_SCOUTORG_ERROR_DUPLICATEID'));
             return false;
         }
 

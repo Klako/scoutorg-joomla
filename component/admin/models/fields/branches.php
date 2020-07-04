@@ -1,8 +1,12 @@
 <?php
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die('Restricted access');
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 class JFormFieldBranches extends JFormFieldList
 {
@@ -18,7 +22,7 @@ class JFormFieldBranches extends JFormFieldList
      */
     protected function getOptions()
     {
-        $db    = JFactory::getDBO();
+        $db    = Factory::getDBO();
         $query = $db->getQuery(true);
         $query->select('id, name');
         $query->from('#__scoutorg_branches');
@@ -29,7 +33,7 @@ class JFormFieldBranches extends JFormFieldList
 
         if ($results) {
             foreach ($results as $result) {
-                $options[] = JHtml::_('select.option', $result->id, $result->name);
+                $options[] = HTMLHelper::_('select.option', $result->id, $result->name);
             }
         }
 

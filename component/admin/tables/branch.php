@@ -1,6 +1,11 @@
 <?php
 
-class ScoutOrgTableBranch extends JTable
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Table\Table;
+
+class ScoutOrgTableBranch extends Table
 {
     /**
      * Constructor
@@ -14,11 +19,12 @@ class ScoutOrgTableBranch extends JTable
 
     public function check() {
 		if (trim($this->name) == '') {
-			$this->setError(JText::_('COM_SCOUTORG_ERROR_MISSINGNAME'));
+			/** @var CMSObject $this */
+			$this->setError(Text::_('COM_SCOUTORG_ERROR_MISSINGNAME'));
 			return false;
 		}
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('id')
@@ -27,7 +33,8 @@ class ScoutOrgTableBranch extends JTable
 		$db->setQuery($query);
 
 		if (($result = $db->loadNextObject()) && $result->id != $this->id) {
-			$this->setError(JText::_('COM_SCOUTORG_ERROR_DUPLICATENAME'));
+			/** @var CMSObject $this */
+			$this->setError(Text::_('COM_SCOUTORG_ERROR_DUPLICATENAME'));
 			return false;
 		}
 

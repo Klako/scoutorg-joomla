@@ -1,6 +1,11 @@
 <?php
 
-class ScoutOrgViewTroop extends JViewLegacy
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
+class ScoutOrgViewTroop extends HtmlView
 {
     protected $form;
     protected $item;
@@ -43,24 +48,24 @@ class ScoutOrgViewTroop extends JViewLegacy
      */
     protected function addToolBar()
     {
-        $input = JFactory::getApplication()->input;
+        $input = Factory::getApplication()->input;
 
         // Hide Joomla Administrator Main menu
         $input->set('hidemainmenu', true);
 
         $isNew = ($this->item->id == 0);
 
-        JToolBarHelper::title($isNew ? JText::_('COM_SCOUTORG_MANAGER_TROOP_NEW')
-                                     : JText::_('COM_SCOUTORG_MANAGER_TROOP_EDIT'), 'troop');
+        ToolbarHelper::title($isNew ? Text::_('COM_SCOUTORG_MANAGER_TROOP_NEW')
+                                     : Text::_('COM_SCOUTORG_MANAGER_TROOP_EDIT'), 'troop');
         // Build the actions for new and existing records.
         
-        JToolBarHelper::apply('troop.apply', 'JTOOLBAR_APPLY');
-        JToolBarHelper::save('troop.save', 'JTOOLBAR_SAVE');
+        ToolBarHelper::apply('troop.apply', 'JTOOLBAR_APPLY');
+        ToolBarHelper::save('troop.save', 'JTOOLBAR_SAVE');
 
         if ($isNew) {
-            JToolBarHelper::cancel('troop.cancel', 'JTOOLBAR_CANCEL');
+            ToolBarHelper::cancel('troop.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolBarHelper::cancel('troop.cancel', 'JTOOLBAR_CLOSE');
+            ToolBarHelper::cancel('troop.cancel', 'JTOOLBAR_CLOSE');
         }
     }
     /**
@@ -71,10 +76,10 @@ class ScoutOrgViewTroop extends JViewLegacy
     protected function setDocument()
     {
         $isNew = ($this->item->id == 0);
-        $document = JFactory::getDocument();
-        $document->setTitle($isNew ? JText::_('COM_SCOUTORG_MANAGER_TROOP_NEW')
-                                   : JText::_('COM_SCOUTORG_MANAGER_TROOP_EDIT'));
+        $document = Factory::getDocument();
+        $document->setTitle($isNew ? Text::_('COM_SCOUTORG_MANAGER_TROOP_NEW')
+                                   : Text::_('COM_SCOUTORG_MANAGER_TROOP_EDIT'));
         $document->addScript(__DIR__.'/submitbutton.js');
-        JText::script('COM_SCOUTORG_ERROR_INVALIDINPUT');
+        Text::script('COM_SCOUTORG_ERROR_INVALIDINPUT');
     }
 }

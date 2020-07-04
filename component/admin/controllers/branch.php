@@ -1,5 +1,7 @@
 <?php
 
-class ScoutOrgControllerBranch extends JControllerForm {
+use Joomla\CMS\MVC\Controller\FormController;
+
+class ScoutOrgControllerBranch extends FormController {
     
 }

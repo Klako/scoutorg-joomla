@@ -1,6 +1,8 @@
 <?php
 
-class ScoutorgTableUserprofilefield extends JTable
+use Joomla\CMS\Table\Table;
+
+class ScoutorgTableUserprofilefield extends Table
 {
     /**
      * Constructor

@@ -1,6 +1,8 @@
 <?php
 
-class ScoutOrgControllerTroops extends JControllerAdmin {
+use Joomla\CMS\MVC\Controller\AdminController;
+
+class ScoutOrgControllerTroops extends AdminController {
     /**
 	 * Proxy for getModel.
 	 * @param   string  $name    The model name. Optional.

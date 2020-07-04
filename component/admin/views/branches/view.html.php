@@ -1,10 +1,16 @@
 <?php
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 /**
  * @package Joomla.Administrator
  * @subpackage com_scoutorg
  */
 
-class ScoutOrgViewBranches extends JViewLegacy {
+class ScoutOrgViewBranches extends HtmlView {
     /**
 	 * Display the branches view
 	 * @param string $tpl
@@ -24,15 +30,15 @@ class ScoutOrgViewBranches extends JViewLegacy {
 	}
 
 	private function setDocument() {
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_SCOUTORG_ADMINISTRATION'));
+		$document = Factory::getDocument();
+		$document->setTitle(Text::_('COM_SCOUTORG_ADMINISTRATION'));
 		$document->addScript(__DIR__.'/submitbutton.js');
 	}
 
 	private function addToolbar() {	
-		JToolBarHelper::title(JText::_('COM_SCOUTORG_ADMINISTRATION'), 'generic.png');
-		JToolBarHelper::addNew('branch.add');
-		JToolBarHelper::editList('branch.edit');
-		JToolBarHelper::deleteList('', 'branches.delete');
+		ToolbarHelper::title(Text::_('COM_SCOUTORG_ADMINISTRATION'), 'generic.png');
+		ToolbarHelper::addNew('branch.add');
+		ToolbarHelper::editList('branch.edit');
+		ToolbarHelper::deleteList('', 'branches.delete');
 	}
 }
