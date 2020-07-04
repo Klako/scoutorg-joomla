@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="scoutorg" default="prepare">
+    <import file="../vendor/joomla/extension-builder/build.xml" />
+</project>
