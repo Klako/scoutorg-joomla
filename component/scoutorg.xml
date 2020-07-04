@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" method="install" version="3.9">
+<extension type="component" method="upgrade" version="3.9">
     <name>Scoutorg</name>
     <element>com_scoutorg</element>
     <author>Alexander Krantz</author>
     <creationDate>2020-06-16</creationDate>
     <license>MIT</license>
     <url>https://github.com/klako/scoutorg-joomla</url>
-    <version>0.0.1</version>
+    <version>1.0.3</version>
     <description>COM_SCOUTORG_DESCRIPTION</description>
     <install>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+            <file driver="mysql" charset="utf8">sql/updates/mysql/0.1.8.sql</file>
+            <file driver="mysql" charset="utf8">sql/updates/mysql/1.0.3.sql</file>
 		</sql>
 	</install>
 	<uninstall>
