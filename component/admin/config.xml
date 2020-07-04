@@ -1,34 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<fieldset
-		name="datasources"
-		label="COM_SCOUTORG_CONFIG_DATASOURCES_LABEL"
-		description="COM_SCOUTORG_CONFIG_DATASOURCES_DESC"
-	>
-		<field name="datasources_scoutGroupSource" type="radio"
-			default="scoutnet"
-			description="COM_SCOUTORG_CONFIG_DATASOURCES_SCOUTGROUPSOURCE_DESC"
-			label="COM_SCOUTORG_CONFIG_DATASOURCES_SCOUTGROUPSOURCE_LABEL"
-		>
-			<option value="scoutnet">Scoutnet</option>
-			<!--<option value="composite">Composite</option>-->
-		</field>
-		<field name="datasources_customListsSource" type="radio"
-			default="scoutnet"
-			description="COM_SCOUTORG_CONFIG_DATASOURCES_CUSTOMLISTSSOURCE_DESC"
-			label="COM_SCOUTORG_CONFIG_DATASOURCES_CUSTOMLISTSSOURCE_LABEL"
-		>
-			<option value="scoutnet">Scoutnet</option>
-		</field>
-		<field name="datasources_waitingListSource" type="radio"
-			default="scoutnet"
-			description="COM_SCOUTORG_CONFIG_DATASOURCES_WAITINGLISTSOURCE_DESC"
-			label="COM_SCOUTORG_CONFIG_DATASOURCES_WAITINGLISTSOURCE_LABEL"
-		>
-			<option value="scoutnet">Scoutnet</option>
-		</field>
-	</fieldset>
-	<fieldset
 		name="scoutnet"
 		label="COM_SCOUTORG_CONFIG_SCOUTNET_LABEL"
 		description="COM_SCOUTORG_CONFIG_SCOUTNET_DESC"

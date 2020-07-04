@@ -4,51 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1dff51a74c59893f4e8510ce5dbc475",
+    "content-hash": "00438631e6c76f0c47a7ed4fdae2351d",
     "packages": [
-        {
-            "name": "klako/scoutorg",
-            "version": "v0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Klako/scoutorg.git",
-                "reference": "26e48a925aa94f70812a897a7d683fd4d9e56f71"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Klako/scoutorg/zipball/26e48a925aa94f70812a897a7d683fd4d9e56f71",
-                "reference": "26e48a925aa94f70812a897a7d683fd4d9e56f71",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "ext-pdo": "*",
-                "ext-pdo_sqlite": "*",
-                "php": ">=7.3",
-                "phpunit/phpunit": "^8.4",
-                "slim/psr7": "^1.0",
-                "slim/slim": "^4.4",
-                "symfony/process": "^5.0",
-                "tuupola/slim-basic-auth": "^3.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Scouterna\\Scoutorg\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Library for fetching scout group information.",
-            "time": "2020-02-08T18:06:04+00:00"
-        }
-    ],
-    "packages-dev": [
         {
             "name": "fig/http-message-util",
             "version": "1.1.4",
@@ -102,39 +59,6 @@
             "time": "2020-02-05T20:36:27+00:00"
         },
         {
-            "name": "joomla/extension-builder",
-            "version": "0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/splrk/joomla-extension-builder.git",
-                "reference": "be4e5f28a07aa08dee7155d3964f5c64d114b35b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/splrk/joomla-extension-builder/zipball/be4e5f28a07aa08dee7155d3964f5c64d114b35b",
-                "reference": "be4e5f28a07aa08dee7155d3964f5c64d114b35b",
-                "shasum": ""
-            },
-            "require": {
-                "phing/phing": "2.*"
-            },
-            "type": "library",
-            "authors": [
-                {
-                    "name": "Ryan Seal",
-                    "email": "allegedlin@gmail.com",
-                    "homepage": "http://code.splrk.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Build a Joomla Extension into a zip file that can be installed in the Admin interface",
-            "support": {
-                "source": "https://github.com/splrk/joomla-extension-builder/tree/0.1",
-                "issues": "https://github.com/splrk/joomla-extension-builder/issues"
-            },
-            "time": "2016-06-08T10:13:05+00:00"
-        },
-        {
             "name": "nikic/fast-route",
             "version": "v1.3.0",
             "source": {
@@ -179,99 +103,6 @@
                 "routing"
             ],
             "time": "2018-02-13T20:26:39+00:00"
-        },
-        {
-            "name": "phing/phing",
-            "version": "2.16.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phingofficial/phing.git",
-                "reference": "b34c2bf9cd6abd39b4287dee31e68673784c8567"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/b34c2bf9cd6abd39b4287dee31e68673784c8567",
-                "reference": "b34c2bf9cd6abd39b4287dee31e68673784c8567",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.0"
-            },
-            "require-dev": {
-                "ext-pdo_sqlite": "*",
-                "mikey179/vfsstream": "^1.6",
-                "pdepend/pdepend": "2.x",
-                "pear/archive_tar": "1.4.x",
-                "pear/http_request2": "dev-trunk",
-                "pear/net_growl": "dev-trunk",
-                "pear/pear-core-minimal": "1.10.1",
-                "pear/versioncontrol_git": "@dev",
-                "pear/versioncontrol_svn": "~0.5",
-                "phpdocumentor/phpdocumentor": "2.x",
-                "phploc/phploc": "~2.0.6",
-                "phpmd/phpmd": "~2.2",
-                "phpunit/phpunit": ">=3.7",
-                "sebastian/git": "~1.0",
-                "sebastian/phpcpd": "2.x",
-                "siad007/versioncontrol_hg": "^1.0",
-                "simpletest/simpletest": "^1.1",
-                "squizlabs/php_codesniffer": "~2.2",
-                "symfony/yaml": "^2.8 || ^3.1 || ^4.0"
-            },
-            "suggest": {
-                "pdepend/pdepend": "PHP version of JDepend",
-                "pear/archive_tar": "Tar file management class",
-                "pear/versioncontrol_git": "A library that provides OO interface to handle Git repository",
-                "pear/versioncontrol_svn": "A simple OO-style interface for Subversion, the free/open-source version control system",
-                "phpdocumentor/phpdocumentor": "Documentation Generator for PHP",
-                "phploc/phploc": "A tool for quickly measuring the size of a PHP project",
-                "phpmd/phpmd": "PHP version of PMD tool",
-                "phpunit/php-code-coverage": "Library that provides collection, processing, and rendering functionality for PHP code coverage information",
-                "phpunit/phpunit": "The PHP Unit Testing Framework",
-                "sebastian/phpcpd": "Copy/Paste Detector (CPD) for PHP code",
-                "siad007/versioncontrol_hg": "A library for interfacing with Mercurial repositories.",
-                "tedivm/jshrink": "Javascript Minifier built in PHP"
-            },
-            "bin": [
-                "bin/phing"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.16.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "classes/phing/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "classes"
-            ],
-            "license": [
-                "LGPL-3.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "Michiel Rook",
-                    "email": "mrook@php.net"
-                },
-                {
-                    "name": "Phing Community",
-                    "homepage": "https://www.phing.info/trac/wiki/Development/Contributors"
-                }
-            ],
-            "description": "PHing Is Not GNU make; it's a PHP project build system or build tool based on Apache Ant.",
-            "homepage": "https://www.phing.info/",
-            "keywords": [
-                "build",
-                "phing",
-                "task",
-                "tool"
-            ],
-            "time": "2020-02-03T18:50:54+00:00"
         },
         {
             "name": "psr/container",
@@ -952,14 +783,15 @@
             "time": "2018-10-15T12:48:00+00:00"
         }
     ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": {
+    "platform": {
         "ext-pdo": "*",
         "ext-pdo_sqlite": "*"
-    }
+    },
+    "platform-dev": []
 }

@@ -3,25 +3,32 @@ version: '3.2'
 services:
   joomla:
     build: './joomla/'
+    environment:
+      JOOMLA_MYSQL_HOST: mysql
+      JOOMLA_MYSQL_LOGIN: root:abc123
+      JOOMLA_MYSQL_DATABASE: joomla
     ports:
-      - '8080:80'
+      - '8080:81'
     depends_on:
       - mysql
       - mock-server
-    networks:
-      - frontend
-      - backend
+    links:
+      - mysql
+      - mock-server
     volumes:
-      - '../component/admin:/var/www/htdocs/administrator/components/com_scoutorg'
-      - '../component/site:/var/www/htdocs/components/com_scoutorg'
+      - '../component/admin/:/var/www/projects/com_scoutorg/administrator/components/com_scoutorg/:ro'
+      - '../component/site/:/var/www/projects/com_scoutorg/components/com_scoutorg/:ro'
+      - '../component/admin/language/:/var/www/projects/com_scoutorg/administrator/language/:ro'
+      - '../component/site/language/:/var/www/projects/com_scoutorg/language/:ro'
+      - '../component/:/root/component/'
   mysql:
-    image: mysql:5.7
-    networks: 
-      - backend
-    
+    build: './mysql/'
+    environment:
+      MYSQL_ROOT_PASSWORD: abc123
+    ports:
+      - '3307:3306'
   mock-server:
     build: './mock-server/'
-
-networks:
-  frontend:
-  backend:
+    environment:
+      MOCKSERVER_GROUP_ID: 1
+      MOCKSERVER_GROUP_KEY: abcdefghijklmnopqrstuvwxyz

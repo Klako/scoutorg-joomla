@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" method="upgrade" version="3.0">
-    <name>ScoutOrg Component</name>
+<extension type="component" method="install" version="3.9">
+    <name>Scoutorg</name>
     <element>com_scoutorg</element>
     <author>Alexander Krantz</author>
-    <creationDate>[[current_date]]</creationDate>
-    <license>GNU General Public License version 2 or later</license>
-    <url>https://github.com/scouternasetjanster/ScoutOrg</url>
-    <version>1.1.0</version>
+    <creationDate>2020-06-16</creationDate>
+    <license>MIT</license>
+    <url>https://github.com/klako/scoutorg-joomla</url>
+    <version>0.0.1</version>
     <description>COM_SCOUTORG_DESCRIPTION</description>
     <install>
 		<sql>
@@ -24,9 +24,9 @@
 		</schemas>
 	</update>
     <files folder="site">
-        <file>scoutorg.php</file>
-        <file>controller.php</file>
-        <file>router.php</file>
+        <filename>scoutorg.php</filename>
+        <filename>controller.php</filename>
+        <filename>router.php</filename>
         <folder>views</folder>
         <folder>models</folder>
         <folder>controllers</folder>
@@ -37,7 +37,7 @@
         <language tag="en-GB">en-GB/en-GB.com_scoutorg.ini</language>
     </languages>
     <administration>
-        <menu>ScoutOrg</menu>
+        <menu>Scoutorg</menu>
         <files folder="admin">
             <filename>scoutorg.php</filename>
             <filename>controller.php</filename>
