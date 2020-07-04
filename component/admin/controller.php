@@ -1,10 +1,13 @@
 <?php
+
+use Joomla\CMS\MVC\Controller\BaseController;
+
 /**
  * @package Joomla.Administration
  * @subpackage com_scoutorg
  */
 
-class ScoutOrgController extends JControllerLegacy {
+class ScoutOrgController extends BaseController {
     /**
 	 * The default view for the display method.
 	 *

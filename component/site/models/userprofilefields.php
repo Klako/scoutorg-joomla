@@ -1,10 +1,13 @@
 <?php
 
-class ScoutorgModelUserprofilefields extends JModelList {
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+
+class ScoutorgModelUserprofilefields extends ListModel {
     protected function getListQuery()
 	{
 		// Initialize variables.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.

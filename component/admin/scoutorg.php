@@ -1,15 +1,20 @@
 <?php
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+
 defined('_JEXEC') or die('Restricted access');
 
-if (!JFactory::getUser()->authorise('core.manage', 'com_scoutorg')) {
-	throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+if (!Factory::getUser()->authorise('core.manage', 'com_scoutorg')) {
+	throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'));
 }
 
 JLoader::register('ScoutOrgHelper', JPATH_COMPONENT . '/helpers/scoutorg.php');
 
-$controller = JControllerLegacy::getInstance('ScoutOrg');
+$controller = BaseController::getInstance('ScoutOrg');
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 $controller->execute($input->getCmd('task'));
 
 $controller->redirect();

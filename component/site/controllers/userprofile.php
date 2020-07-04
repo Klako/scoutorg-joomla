@@ -1,5 +1,7 @@
 <?php
 
-class ScoutOrgControllerUserprofile extends JControllerBase {
+use Joomla\CMS\MVC\Controller\BaseController;
+
+class ScoutOrgControllerUserprofile extends BaseController {
     
 }

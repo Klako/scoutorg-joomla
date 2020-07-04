@@ -1,4 +1,7 @@
 <?php
+
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die('Restricted access');
 ?>
 
@@ -10,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
     <table class="scoutorg-profile">
         <tbody>
             <?php foreach ($this->fields as $field) : ?>
-                <?php if (in_array($field->access, JFactory::getUser()->getAuthorisedViewLevels()) && $field->published == 1) : ?>
+                <?php if (in_array($field->access, Factory::getUser()->getAuthorisedViewLevels()) && $field->published == 1) : ?>
                     <tr>
                         <th>
                             <?= $field->title ?>
