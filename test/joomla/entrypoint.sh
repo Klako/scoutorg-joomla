@@ -15,4 +15,6 @@ rm /var/www/testsite/language/{sv-SE,en-GB}/{sv-SE,en-GB}.com_scoutorg.{sys.ini,
 rm /var/www/testsite/administrator/language/{sv-SE,en-GB}/{sv-SE,en-GB}.com_scoutorg.{sys.ini,ini} 2> /dev/null
 joomla extension:symlink testsite com_scoutorg --projects-dir /var/www/projects
 
+chown -R www-data:www-data /var/www/testsite
+
 /usr/sbin/apache2ctl -D FOREGROUND
