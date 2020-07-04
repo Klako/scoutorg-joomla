@@ -20,10 +20,11 @@ RUN ln -s ~/.composer/vendor/bin/joomla /usr/bin/joomla
 
 RUN apt-get install -y sudo
 RUN apt-get install -y mysql-client
+RUN apt-get install -y zip
+
+RUN joomla site:download testsite --release=3.9.19
 
 COPY configuration.yaml /
 COPY entrypoint.sh /
-
-RUN joomla site:download testsite --release=3.9.19
 
 CMD [ "/entrypoint.sh" ]
