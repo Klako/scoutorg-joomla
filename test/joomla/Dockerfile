@@ -12,7 +12,7 @@ RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:ondrej/php
 RUN apt-get update
 
-RUN apt-get install -y php7.4 php7.4-zip php7.4-xml php7.4-mysql
+RUN apt-get install -y php7.4 php7.4-zip php7.4-xml php7.4-mysql php7.4-curl php7.4-xdebug
 
 RUN apt-get install -y composer
 RUN composer global require joomlatools/console
@@ -24,6 +24,8 @@ RUN apt-get install -y zip
 
 RUN joomla site:download testsite --release=3.9.19
 
+COPY config /config
+RUN cat /config/php.ini >> /etc/php/7.4/apache2/php.ini
 COPY configuration.yaml /
 COPY entrypoint.sh /
 
