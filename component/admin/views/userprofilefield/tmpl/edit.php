@@ -15,12 +15,9 @@ defined('_JEXEC') or die('Restricted access');
 				<legend><?php echo Text::_($fieldset->label); ?></legend>
 				<div class="row-fluid">
 					<div class="span6">
-						<?php foreach ($this->form->getFieldset($name) as $field): ?>
-							<div class="control-group">
-								<div class="control-label"><?php echo $field->label; ?></div>
-								<div class="controls"><?php echo $field->input; ?></div>
-							</div>
-						<?php endforeach; ?>
+						<?php foreach ($this->form->getFieldset($name) as $field) {
+							echo $field->renderField();
+						} ?>
 					</div>
 				</div>
 			</fieldset>
