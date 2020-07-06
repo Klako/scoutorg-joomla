@@ -7,13 +7,13 @@ defined('_JEXEC') or die('Restricted access');
 
 FormHelper::loadFieldClass('list');
 
-class JFormFieldBranches extends JFormFieldList
+class JFormFieldCustomlists extends JFormFieldList
 {
     /**
      * The field type.
      * @var         string
      */
-    protected $type = 'Branches';
+    protected $type = 'CustomLists';
 
     /**
      * Method to get a list of options for a list input.
@@ -32,8 +32,8 @@ class JFormFieldBranches extends JFormFieldList
             $options[] = JHtmlSelect::option('', Text::_('JNONE'));
         }
 
-        foreach ($scoutgroup->branches as $branch) {
-            $options[] = JHtmlSelect::option("{$branch->source}:{$branch->id}", $branch->name);
+        foreach ($scoutgroup->customLists as $customlist) {
+            $options[] = JHtmlSelect::option("{$customlist->source}:{$customlist->id}", $customlist->title);
         }
 
         $options = array_merge(parent::getOptions(), $options);
