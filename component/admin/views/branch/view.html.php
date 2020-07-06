@@ -25,8 +25,8 @@ class ScoutOrgViewBranch extends HtmlView
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
-            JError::raiseError(500, implode('<br />', $errors));
-            return false;
+            Factory::getApplication()->enqueueMessage(implode('<br/>', $errors), 'error');
+            return;
         }
 
         // Set the toolbar
@@ -34,9 +34,6 @@ class ScoutOrgViewBranch extends HtmlView
 
         // Display the template
         parent::display($tpl);
-
-        // Set the document
-        $this->setDocument();
     }
 
     /**
@@ -59,26 +56,9 @@ class ScoutOrgViewBranch extends HtmlView
                                      : Text::_('COM_SCOUTORG_MANAGER_BRANCH_EDIT'), 'branch');
         // Build the actions for new and existing records.
         
-        ToolBarHelper::apply('branch.apply', 'JTOOLBAR_APPLY');
         ToolBarHelper::save('branch.save', 'JTOOLBAR_SAVE');
+        ToolBarHelper::cancel('branch.cancel', 'JTOOLBAR_CANCEL');
 
-        if ($isNew) {
-            ToolBarHelper::cancel('branch.cancel', 'JTOOLBAR_CANCEL');
-        } else {
-            ToolBarHelper::cancel('branch.cancel', 'JTOOLBAR_CLOSE');
-        }
-    }
-    /**
-     * Method to set up the document properties
-     *
-     * @return void
-     */
-    protected function setDocument()
-    {
-        $isNew = ($this->item->id == 0);
-        $document = Factory::getDocument();
-        $document->setTitle($isNew ? Text::_('COM_SCOUTORG_MANAGER_BRANCH_NEW')
-                                   : Text::_('COM_SCOUTORG_MANAGER_BRANCH_EDIT'));
         Text::script('COM_SCOUTORG_ERROR_INVALIDINPUT');
     }
 }
