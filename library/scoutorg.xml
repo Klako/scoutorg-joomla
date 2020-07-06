@@ -11,5 +11,6 @@
     <files>
         <filename>loader.php</filename>
         <folder>src</folder>
+        <folder>vendor</folder>
     </files>
 </extension>
