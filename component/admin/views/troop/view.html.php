@@ -79,7 +79,6 @@ class ScoutOrgViewTroop extends HtmlView
         $document = Factory::getDocument();
         $document->setTitle($isNew ? Text::_('COM_SCOUTORG_MANAGER_TROOP_NEW')
                                    : Text::_('COM_SCOUTORG_MANAGER_TROOP_EDIT'));
-        $document->addScript(__DIR__.'/submitbutton.js');
         Text::script('COM_SCOUTORG_ERROR_INVALIDINPUT');
     }
 }

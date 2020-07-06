@@ -32,7 +32,6 @@ class ScoutOrgViewBranches extends HtmlView {
 	private function setDocument() {
 		$document = Factory::getDocument();
 		$document->setTitle(Text::_('COM_SCOUTORG_ADMINISTRATION'));
-		$document->addScript(__DIR__.'/submitbutton.js');
 	}
 
 	private function addToolbar() {	
