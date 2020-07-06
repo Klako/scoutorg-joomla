@@ -57,6 +57,7 @@
 			cols="50"
 			default=""
 			filter="raw"
+			showon="fieldtype:org-code"
 		/>
 	</fieldset>
 </form>
