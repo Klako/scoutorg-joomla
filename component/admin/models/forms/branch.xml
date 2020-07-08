@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fieldset name="branch" label="COM_SCOUTORG_BRANCH">
+    <fieldset name="branch" label="COM_SCOUTORG_BRANCH_FORM">
         <field
             name="id"
             type="hidden"

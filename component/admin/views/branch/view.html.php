@@ -3,6 +3,7 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 class ScoutOrgViewBranch extends HtmlView
@@ -53,9 +54,9 @@ class ScoutOrgViewBranch extends HtmlView
         $isNew = ($this->item->id == 0);
 
         ToolbarHelper::title($isNew ? Text::_('COM_SCOUTORG_MANAGER_BRANCH_NEW')
-                                     : Text::_('COM_SCOUTORG_MANAGER_BRANCH_EDIT'), 'branch');
+            : Text::_('COM_SCOUTORG_MANAGER_BRANCH_EDIT'), 'branch');
         // Build the actions for new and existing records.
-        
+
         ToolBarHelper::save('branch.save', 'JTOOLBAR_SAVE');
         ToolBarHelper::cancel('branch.cancel', 'JTOOLBAR_CANCEL');
 

@@ -66,3 +66,4 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 		<?= HTMLHelper::_('form.token'); ?>
 	</div>
 </form>
+<?= $this->modal ?>
