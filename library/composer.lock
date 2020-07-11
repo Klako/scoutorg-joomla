@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "klako/scoutorg",
-            "version": "v0.1.1",
+            "version": "v0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Klako/scoutorg.git",
-                "reference": "68d35e178d0e63a14e38239b4123932275c06cc3"
+                "reference": "eb907d0879ee63d9385c4a1432a09ed77872ddfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Klako/scoutorg/zipball/68d35e178d0e63a14e38239b4123932275c06cc3",
-                "reference": "68d35e178d0e63a14e38239b4123932275c06cc3",
+                "url": "https://api.github.com/repos/Klako/scoutorg/zipball/eb907d0879ee63d9385c4a1432a09ed77872ddfb",
+                "reference": "eb907d0879ee63d9385c4a1432a09ed77872ddfb",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "MIT"
             ],
             "description": "Library for fetching scout group information.",
-            "time": "2020-07-06T23:11:41+00:00"
+            "time": "2020-07-11T02:13:40+00:00"
         }
     ],
     "packages-dev": [],
