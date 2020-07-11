@@ -19,6 +19,7 @@ rm -r /var/www/testsite/components/com_scoutorg
 rm -r /var/www/testsite/administrator/components/com_scoutorg
 rm /var/www/testsite/language/{sv-SE,en-GB}/{sv-SE,en-GB}.com_scoutorg.{sys.ini,ini} 2> /dev/null
 rm /var/www/testsite/administrator/language/{sv-SE,en-GB}/{sv-SE,en-GB}.com_scoutorg.{sys.ini,ini} 2> /dev/null
+rm -r /var/www/testsite/media/com_scoutorg
 joomla extension:symlink testsite com_scoutorg --projects-dir /var/www/projects
 
 cat /config/params.sql | mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" -h"$MYSQL_HOST" $MYSQL_DATABASE

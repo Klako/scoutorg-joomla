@@ -37,6 +37,9 @@
         <language tag="sv-SE">sv-SE/sv-SE.com_scoutorg.ini</language>
         <language tag="en-GB">en-GB/en-GB.com_scoutorg.ini</language>
     </languages>
+    <media destination="com_scoutorg" folder="media">
+		<folder>js</folder>
+	</media>
     <administration>
         <menu>Scoutorg</menu>
         <files folder="admin">
