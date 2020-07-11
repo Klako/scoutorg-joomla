@@ -21,7 +21,7 @@ class BranchHandler extends Handler
 
         $this->db->setQuery($query);
 
-        if ($row = $this->db->loadAssoc() == null){
+        if (($row = $this->db->loadAssoc()) == null){
             return null;
         }
 
