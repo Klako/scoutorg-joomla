@@ -6,5 +6,10 @@
     "minimum-stability": "stable",
     "require": {
         "klako/scoutorg": "^0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Scouterna\\Scoutorg\\Joomorg\\": "src/Joomorg/"
+        }
     }
 }
