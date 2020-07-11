@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Scouterna\Scoutorg\Builder;
 use Scouterna\Scoutorg\Lib\ScoutGroup;
 use Scouterna\Scoutorg\Scoutnet;
+use Scouterna\Scoutorg\Joomorg;
 
 class ScoutorgLoader {
     /** @var Builder\ScoutorgBuilder Scout organisation instance */
@@ -75,7 +76,10 @@ class ScoutorgLoader {
         $scoutnetController = new Scoutnet\ScoutnetController($scoutnetConnection, null, $scoutnetCacheLifeTime);
         $scoutnetProvider = new Scoutnet\PartProvider($scoutnetController);
 
+        $joomlaProvider = new Joomorg\PartProvider(Factory::getDbo());
+
         $builderConfig = new Builder\Config();
+        $builderConfig->addProvider('joomla', $joomlaProvider);
         $builderConfig->addProvider('scoutnet', $scoutnetProvider);
 
         self::$builder = new Builder\ScoutorgBuilder($builderConfig);
@@ -89,32 +93,5 @@ class ScoutorgLoader {
      */
     private static function getParams() {
         return ComponentHelper::getParams('com_scoutorg');
-    }
-
-    /**
-     * Gets the branch configs from the database.
-     * @return \Org\Scoutnet\BranchConfig[]
-     */
-    private static function getBranchConfigs() {
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-        $query->select('id, name')->from($db->quoteName('#__scoutorg_branches'));
-        $db->setQuery($query);
-
-        $configs = array();
-        foreach ($db->loadObjectList() as $branchRow) {
-            $query = $db->getQuery(true);
-            $query->select('troop')
-                ->from($db->quoteName('#__scoutorg_troops'))
-                ->where("branch = {$branchRow->id}");
-            $db->setQuery($query);
-
-            $troops = array();
-            foreach ($db->loadObjectList() as $troopRow) {
-                $troops[] = $troopRow->troop;
-            }
-        }
-
-        return $configs;
     }
 }
