@@ -7,15 +7,15 @@ class ScoutorgHelper
     /**
      * Parses a string containing source and id for an scoutorg object.
      * Returns an associated array with format:
-     *      source:string The source of the object
-     *      id:int|string The id of the object
+     *      source : string         The source of the object
+     *      id     : int|string     The id of the object
      * @param string $id 
      * @return false|string[] 
      */
     public static function parseFieldId($id)
     {
         $splitId = \explode(':', $id);
-        if (count($splitId !== 2)) {
+        if (count($splitId) !== 2) {
             return false;
         }
         return ['source' => $splitId[0], 'id' => $splitId[1]];
