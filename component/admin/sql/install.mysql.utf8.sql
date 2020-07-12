@@ -5,12 +5,23 @@ CREATE TABLE `#__scoutorg_branches` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS '#__scoutorg_branchtroops'
+CREATE TABLE `#__scoutorg_branchtroops` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `branch_source` VARCHAR(45) NOT NULL,
+  `branch_id` VARCHAR(45) NOT NULL,
+  `troop_source` VARCHAR(45) NOT NULL,
+  `troop_id` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `#__scoutorg_customlistmembers`;
 CREATE TABLE `#__scoutorg_customlistmembers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `customlist_source` varchar(45) NOT NULL,
-  `customlist_id` int(11) NOT NULL,
-  `member_id` int(11) NOT NULL,
+  `customlist_id` varchar(45) NOT NULL,
+  `member_source` varchar(45) NOT NULL,
+  `member_id` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -19,17 +30,18 @@ CREATE TABLE `#__scoutorg_customlists` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(64) NOT NULL,
   `description` text,
-  `parent_source` int(11) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT NULL,
+  `parent_source` varchar(45) NOT NULL,
+  `parent_id` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `#__scoutorg_groupmemberroles`;
 CREATE TABLE `#__scoutorg_groupmemberroles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) NOT NULL,
+  `member_source` varchar(45) NOT NULL
+  `member_id` varchar(45) NOT NULL,
   `role_source` varchar(45) NOT NULL,
-  `role_id` int(11) NOT NULL,
+  `role_id` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -44,9 +56,9 @@ DROP TABLE IF EXISTS `#__scoutorg_patrolmemberroles`;
 CREATE TABLE `#__scoutorg_patrolmemberroles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `patrolmember_source` varchar(45) NOT NULL,
-  `patrolmember_id` int(11) NOT NULL,
+  `patrolmember_id` varchar(45) NOT NULL,
   `role_source` varchar(45) NOT NULL,
-  `role_id` int(11) NOT NULL,
+  `role_id` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -54,8 +66,9 @@ DROP TABLE IF EXISTS `#__scoutorg_patrolmembers`;
 CREATE TABLE `#__scoutorg_patrolmembers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `patrol_source` varchar(45) NOT NULL,
-  `patrol_id` int(11) NOT NULL,
-  `member_id` int(11) NOT NULL,
+  `patrol_id` varchar(45) NOT NULL,
+  `member_source` varchar(45) NOT NULL,
+  `member_id` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -71,7 +84,7 @@ CREATE TABLE `#__scoutorg_patrols` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
   `troop_source` varchar(45) NOT NULL,
-  `troop_id` int(11) NOT NULL,
+  `troop_id` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -79,9 +92,9 @@ DROP TABLE IF EXISTS `#__scoutorg_troopmemberroles`;
 CREATE TABLE `#__scoutorg_troopmemberroles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `troopmember_source` varchar(45) NOT NULL,
-  `troopmember_id` int(11) NOT NULL,
+  `troopmember_id` varchar(11) NOT NULL,
   `role_source` varchar(45) NOT NULL,
-  `role_id` int(11) NOT NULL,
+  `role_id` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -89,8 +102,9 @@ DROP TABLE IF EXISTS `#__scoutorg_troopmembers`;
 CREATE TABLE `#__scoutorg_troopmembers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `troop_source` varchar(45) NOT NULL,
-  `troop_id` int(11) NOT NULL,
-  `member_id` int(11) NOT NULL,
+  `troop_id` varchar(45) NOT NULL,
+  `member_source` varchar(45) NOT NULL,
+  `member_id` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -105,9 +119,7 @@ DROP TABLE IF EXISTS `#__scoutorg_troops`;
 CREATE TABLE `#__scoutorg_troops` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
-  `branch` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__scoutorg_branches` (`name`)
