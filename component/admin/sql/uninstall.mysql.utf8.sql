@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS `#__scoutorg_branches`;
+DROP TABLE IF EXISTS `#__scoutorg_branchtroops`;
 DROP TABLE IF EXISTS `#__scoutorg_customlistmembers`;
 DROP TABLE IF EXISTS `#__scoutorg_customlists`;
 DROP TABLE IF EXISTS `#__scoutorg_groupmemberroles`;
