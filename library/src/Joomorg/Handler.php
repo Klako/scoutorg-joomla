@@ -2,6 +2,9 @@
 
 namespace Scouterna\Scoutorg\Joomorg;
 
+use Scouterna\Scoutorg\Builder\Bases\ObjectBase;
+use Scouterna\Scoutorg\Builder\Uid;
+
 abstract class Handler
 {
     /** @var \JDatabaseDriver */
@@ -12,9 +15,26 @@ abstract class Handler
         $this->db = $db;
     }
 
+    /**
+     * Gets org object base from id (source is joomla)
+     * @param int|string $id 
+     * @return ObjectBase 
+     */
     public abstract function getBase($id);
 
-    public abstract function getLink($id, $name);
+    /**
+     * Gets link of org object from uid
+     * @param Uid $uid 
+     * @param string $name 
+     * @return Uid 
+     */
+    public abstract function getLink($uid, $name);
 
-    public abstract function getLinks($id, $name);
+    /**
+     * Gets list of links of org object from uid
+     * @param Uid $uid 
+     * @param string $name 
+     * @return Uid[]
+     */
+    public abstract function getLinks($uid, $name);
 }
