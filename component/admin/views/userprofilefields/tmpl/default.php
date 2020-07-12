@@ -76,7 +76,7 @@ HTMLHelper::_('sortablelist.sortable', 'fieldlist', 'adminForm', 'asc', $saveOrd
                             </a>
 						</td>
 						<td class="hidden-phone">
-							<?= ScoutOrgHelper::evalFieldname($item->fieldtype) ?>
+							<?= ScoutorgHelper::evalFieldname($item->fieldtype) ?>
 						</td>
 						<td class="small hidden-phone">
 							<?= $this->escape($item->access_level); ?>

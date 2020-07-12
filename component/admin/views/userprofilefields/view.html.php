@@ -12,7 +12,7 @@ class ScoutorgViewUserprofilefields extends HtmlView {
 		$this->state = $this->get('State');
 
 		$this->addToolbar();
-		$this->sidebar = ScoutOrgHelper::addSubMenu('userprofilefields');
+		$this->sidebar = ScoutorgHelper::addSubMenu('userprofilefields');
 
 		parent::display($tpl);
 
