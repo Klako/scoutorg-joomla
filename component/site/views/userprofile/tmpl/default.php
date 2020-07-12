@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
                             <?= $field->title ?>
                         </th>
                         <td>
-                            <?= ScoutOrgHelper::renderField($field, $this->member) ?>
+                            <?= ScoutorgHelper::renderField($field, $this->member) ?>
                         </td>
                     </tr>
                 <?php endif; ?>

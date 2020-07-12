@@ -1,6 +1,6 @@
 <?php
 
-class ScoutOrgHelper {
+class ScoutorgHelper {
     /**
      * Evaluates fieldtype name for given fieldtype
      * @param object $field field type name
