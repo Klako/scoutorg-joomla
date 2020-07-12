@@ -10,6 +10,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
 use Scouterna\Scoutorg\Builder;
 use Scouterna\Scoutorg\Lib\ScoutGroup;
 use Scouterna\Scoutorg\Scoutnet;
@@ -89,7 +90,7 @@ class ScoutorgLoader {
 
     /**
      * Gets the component params.
-     * @return JRegistry
+     * @return Registry
      */
     private static function getParams() {
         return ComponentHelper::getParams('com_scoutorg');
