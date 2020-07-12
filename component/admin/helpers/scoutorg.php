@@ -2,7 +2,9 @@
 
 use Joomla\CMS\Language\Text;
 
-class ScoutOrgHelper {
+class ScoutorgHelper {
+    //public static function parseFieldId($)
+
     /**
      * Generates a sidebar for all pages.
      * @param string $view The view name. Is hardcoded.

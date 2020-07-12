@@ -20,8 +20,11 @@ class ScoutOrgViewTroops extends HtmlView {
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 
+		jimport('scoutorg.loader');
+		$this->scoutgroup = ScoutorgLoader::loadGroup();
+
 		$this->addToolbar();
-		$this->sidebar = ScoutOrgHelper::addSubMenu('troops');
+		$this->sidebar = ScoutorgHelper::addSubMenu('troops');
 
 		parent::display($tpl);
 

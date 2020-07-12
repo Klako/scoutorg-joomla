@@ -22,14 +22,11 @@ class ScoutOrgViewBranches extends HtmlView
 	 */
 	function display($tpl = null)
 	{
-		//$this->setModel('ScoutorgModelBranch');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->modal 		= $this->modal();
+		$this->branches = $this->get('Branches');
+		$this->modal = $this->modal();
 
 		$this->addToolbar();
-		$this->sidebar = ScoutOrgHelper::addSubMenu('branches');
+		$this->sidebar = ScoutorgHelper::addSubMenu('branches');
 
 		parent::display($tpl);
 
@@ -40,6 +37,7 @@ class ScoutOrgViewBranches extends HtmlView
 	{
 		$document = Factory::getDocument();
 		$document->setTitle(Text::_('COM_SCOUTORG_ADMINISTRATION'));
+		$document->addScript('/media/com_scoutorg/js/modalCloseBehaviour.js');
 	}
 
 	private function addToolbar()
@@ -67,7 +65,7 @@ class ScoutOrgViewBranches extends HtmlView
 					. " onclick=\"window.processModalEdit(this, 0, 'add', 'branch', 'cancel', 'adminForm');\">"
 					. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 					. '<button class="btn btn-primary" aria-hidden="true"'
-					. " onclick=\"window.processModalEdit(this, 0, 'add', 'branch', 'save', 'adminForm');setTimeout('window.location.reload()',100);\">"
+					. " onclick=\"onModalReload('BranchModal');window.processModalEdit(this, 0, 'add', 'branch', 'save', 'adminForm');\">"
 					. Text::_('JSAVE') . '</button>'
 			]
 		);

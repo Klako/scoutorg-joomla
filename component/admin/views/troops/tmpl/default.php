@@ -3,39 +3,46 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Scouterna\Scoutorg\Lib;
 
 defined('_JEXEC') or die('Restricted Access');
 
 HTMLHelper::_('formbehavior.chosen', 'select');
 
+/** @var Lib\ScoutGroup */
+$scoutgroup = $this->scoutgroup;
+
 ?>
 <form action="index.php?option=com_scoutorg&view=troops" method="post" id="adminForm" name="adminForm">
 	<div id="j-sidebar-container" class="span2">
-    	<?= $this->sidebar; ?>
+		<?= $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10 j-toggle-main">
-		<?php if (empty($this->items)) : ?>
+		<?php if (empty($scoutgroup->troops)) : ?>
 			<div class="alert alert-no-items">
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped table-hover">
 				<thead>
-				<tr>
-					<th width="1%"><?= Text::_('COM_SCOUTORG_NUM') ?></th>
-					<th width="2%">
-						<?= HTMLHelper::_('grid.checkall'); ?>
-					</th>
-					<th width="45%">
-						<?= Text::_('COM_SCOUTORG_TROOP_TROOP_LABEL') ?>
-					</th>
-        	        <th width="45%">
-        	            <?= Text::_('COM_SCOUTORG_TROOP_BRANCH_LABEL') ?>
-        	        </th>
-					<th width="2%">
-						<?= Text::_('COM_SCOUTORG_TROOP_ID_LABEL') ?>
-					</th>
-				</tr>
+					<tr>
+						<th width="1%"><?= Text::_('COM_SCOUTORG_NUM') ?></th>
+						<th width="2%">
+							<?= HTMLHelper::_('grid.checkall'); ?>
+						</th>
+						<th width="30%">
+							<?= Text::_('COM_SCOUTORG_TROOP_TROOP_LABEL') ?>
+						</th>
+						<th width="30%">
+							<?= Text::_('COM_SCOUTORG_TROOP_BRANCH_LABEL') ?>
+						</th>
+						<th width="30%">
+							Source
+						</th>
+						<th width="2%">
+							<?= Text::_('COM_SCOUTORG_TROOP_ID_LABEL') ?>
+						</th>
+					</tr>
 				</thead>
 				<tfoot>
 					<tr>
@@ -45,49 +52,44 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 					</tr>
 				</tfoot>
 				<tbody>
-					<?php foreach ($this->items as $i => $row) :
-        	            $link = Route::_('index.php?option=com_scoutorg&task=troop.edit&id=' . $row->id);
-        	            jimport('scoutorg.loader');
-        	            $troops = ScoutOrgLoader::load()->getScoutGroup()->getTroops(true);
-						$troop = $troops[intval($row->troop)];
+					<?php $i = 0;
+					foreach ($scoutgroup->troops as $troop) :
 					?>
 						<tr>
 							<td>
 								<?= $this->pagination->getRowOffset($i); ?>
 							</td>
 							<td>
-								<?= HTMLHelper::_('grid.id', $i, $row->id); ?>
+								<?= HTMLHelper::_('grid.id', $i, $troop->id); ?>
 							</td>
-							<?php if ($troop) : ?>
+							<?php if ($troop->source == 'joomla') : ?>
 								<td>
-									<a href="<?= $link ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_TROOP') ?>">
-										<?= $troop->getName() ?>
+									<a href="<?= Route::_('index.php?option=com_scoutorg&task=troop.edit&id=' . $troop->id); ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_TROOP') ?>">
+										<?= $troop->name ?>
 									</a>
 								</td>
-        	                	<td>
-        	                	    <?= $troop->getBranch()->getName() ?>
-        	                	</td>
 							<?php else : ?>
 								<td>
-									<a href="<?= $link ?>" title ="<?= Text::_('COM_SCOUTORG_ERROR_TROOP_NOT_FOUND') ?>">
-										<?= $row->troop.': '.Text::_('COM_SCOUTORG_ERROR_TROOP_NOT_FOUND') ?>
-									</a>
+									<?= $troop->name ?>
 								</td>
-								<td>
-        	                	    <?= $row->branch ?>
-        	                	</td>
 							<?php endif; ?>
+							<td>
+								<?= $troop->branch->name ?? 'None' ?>
+							</td>
+							<td>
+								<?= $troop->source ?>
+							</td>
 							<td align="center">
-									<?= $row->id; ?>
-								</td>
+								<?= $troop->id; ?>
+							</td>
 						</tr>
-					<?php endforeach; ?>
+					<?php $i++;
+					endforeach; ?>
 				</tbody>
 			</table>
 		<?php endif; ?>
-		<input type="hidden" name="task" value=""/>
-		<input type="hidden" name="boxchecked" value="0"/>
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
 		<?= HTMLHelper::_('form.token'); ?>
 	</div>
 </form>
-
