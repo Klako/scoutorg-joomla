@@ -1,22 +1,37 @@
 <?php
 
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\MVC\Model\AdminModel;
 
-class ScoutOrgModelTroops extends ListModel {
-    /**
-	 * Method to build an SQL query to load the list data.
-	 *
-	 * @return      string  An SQL query
-	 */
-	protected function getListQuery()
+class ScoutOrgModelTroops extends AdminModel
+{
+	public function getTroops()
 	{
-		// Initialize variables.
-		$db    = \Joomla\CMS\Factory::getDbo();
-		$query = $db->getQuery(true);
+		jimport('scoutorg.loader');
+		$scoutgroup = ScoutorgLoader::loadGroup();
+		return $scoutgroup->troops;
+	}
 
-		// Create the base select statement.
-		$query->select('*')->from($db->quoteName('#__scoutorg_troops'));
+	public function getTable($name = 'Troop', $prefix = 'ScoutOrgTable', $options = array())
+	{
+		return parent::getTable($name, $prefix, $options);
+	}
 
-		return $query;
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm(
+			'com_scoutorg.troop',
+			'troop',
+			array(
+				'control' => 'jform',
+				'load_data' => $loadData
+			)
+		);
+
+		if (empty($form)) {
+			return false;
+		}
+
+		return $form;
 	}
 }

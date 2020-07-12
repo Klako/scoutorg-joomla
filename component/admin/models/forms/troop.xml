@@ -6,10 +6,10 @@
             type="hidden"
         />
         <field
-            name="troop"
-            type="troops"
-            label="COM_SCOUTORG_TROOP_TROOP_LABEL"
-            description="COM_SCOUTORG_TROOP_TROOP_DESC"
+            name="name"
+            type="text"
+            label="Name"
+            description="Name of the troop"
             required="true"
         />
         <field
