@@ -6,6 +6,11 @@ use Joomla\CMS\MVC\Model\AdminModel;
 
 class ScoutOrgModelTroop extends AdminModel
 {
+    public function getTable($type = 'Troop', $prefix = 'ScoutOrgTable', $config = array())
+    {
+        return Joomla\CMS\Table\Table::getInstance($type, $prefix, $config);
+    }
+
     public function getForm($data = array(), $loadData = true)
     {
         // Get the form.

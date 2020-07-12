@@ -44,31 +44,25 @@ $scoutgroup = $this->scoutgroup;
 						</th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<td colspan="5">
-							<?= $this->pagination->getListFooter() ?>
-						</td>
-					</tr>
-				</tfoot>
 				<tbody>
 					<?php $i = 0;
 					foreach ($scoutgroup->troops as $troop) :
 					?>
 						<tr>
 							<td>
-								<?= $this->pagination->getRowOffset($i); ?>
-							</td>
-							<td>
-								<?= HTMLHelper::_('grid.id', $i, $troop->id); ?>
+								<?= $i ?>
 							</td>
 							<?php if ($troop->source == 'joomla') : ?>
+								<td>
+									<?= HTMLHelper::_('grid.id', $i, $troop->id); ?>
+								</td>
 								<td>
 									<a href="<?= Route::_('index.php?option=com_scoutorg&task=troop.edit&id=' . $troop->id); ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_TROOP') ?>">
 										<?= $troop->name ?>
 									</a>
 								</td>
 							<?php else : ?>
+								<td></td>
 								<td>
 									<?= $troop->name ?>
 								</td>
