@@ -1,22 +1,44 @@
 <?php
 
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Table;
 
-class ScoutOrgModelBranches extends ListModel {
-    /**
-	 * Method to build an SQL query to load the list data.
-	 *
-	 * @return      string  An SQL query
-	 */
-	protected function getListQuery()
+class ScoutOrgModelBranches extends AdminModel
+{
+	public function getBranches()
 	{
-		// Initialize variables.
-		$db    = Joomla\CMS\Factory::getDbo();
-		$query = $db->getQuery(true);
+		jimport('scoutorg.loader');
+		$scoutgroup = ScoutorgLoader::loadGroup();
 
-		// Create the base select statement.
-		$query->select('*')->from($db->quoteName('#__scoutorg_branches'));
+		return $scoutgroup->branches;
+	}
 
-		return $query;
+	/**
+	 * @inheritdoc
+	 * @return Table
+	 */
+	public function getTable($name = 'Branch', $prefix = 'ScoutOrgTable', $options = array())
+	{
+		return parent::getTable($name, $prefix, $options);
+	}
+
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm(
+			'com_scoutorg.branch',
+			'branch',
+			array(
+				'control' => 'jform',
+				'load_data' => $loadData
+			)
+		);
+
+		if (empty($form)) {
+			return false;
+		}
+
+		return $form;
 	}
 }

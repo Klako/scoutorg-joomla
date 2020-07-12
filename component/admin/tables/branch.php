@@ -7,17 +7,18 @@ use Joomla\CMS\Table\Table;
 
 class ScoutOrgTableBranch extends Table
 {
-    /**
-     * Constructor
-     *
-     * @param   JDatabaseDriver  &$db  A database connector object
-     */
-    public function __construct(&$db)
-    {
-        parent::__construct('#__scoutorg_branches', 'id', $db);
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param   JDatabaseDriver  &$db  A database connector object
+	 */
+	public function __construct(&$db)
+	{
+		parent::__construct('#__scoutorg_branches', 'id', $db);
+	}
 
-    public function check() {
+	public function check()
+	{
 		if (trim($this->name) == '') {
 			/** @var CMSObject $this */
 			$this->setError(Text::_('COM_SCOUTORG_ERROR_MISSINGNAME'));

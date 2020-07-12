@@ -23,7 +23,6 @@ class ScoutOrgViewBranches extends HtmlView
 	function display($tpl = null)
 	{
 		$this->branches = $this->get('Branches');
-		$this->modal = $this->modal();
 
 		$this->addToolbar();
 		$this->sidebar = ScoutorgHelper::addSubMenu('branches');
@@ -43,32 +42,7 @@ class ScoutOrgViewBranches extends HtmlView
 	private function addToolbar()
 	{
 		ToolbarHelper::title(Text::_('COM_SCOUTORG_ADMINISTRATION'), 'generic.png');
-		ToolbarHelper::modal('BranchModal', 'icon-new', 'JTOOLBAR_NEW');
-		ToolbarHelper::editList('branch.edit');
+		ToolbarHelper::addNew('branch.add');
 		ToolbarHelper::deleteList('', 'branches.delete');
-	}
-
-	private function modal()
-	{
-		$branchLink = Route::_('index.php?option=com_scoutorg&task=branch.edit&id=0&tmpl=component&layout=modal');
-
-		HTMLHelper::_('script', 'system/modal-fields-uncompressed.js', array('version' => 'auto', 'relative' => true));
-
-		$html = JHtmlBootstrap::renderModal(
-			'BranchModal',
-			[
-				'title' => Text::_('COM_SCOUTORG_MANAGER_BRANCH_NEW'),
-				'url' => $branchLink,
-				'height' => '400px',
-				'modalWidth' => '30',
-				'footer' => '<button class="btn" aria-hidden="true"'
-					. " onclick=\"window.processModalEdit(this, 0, 'add', 'branch', 'cancel', 'adminForm');\">"
-					. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-					. '<button class="btn btn-primary" aria-hidden="true"'
-					. " onclick=\"onModalReload('BranchModal');window.processModalEdit(this, 0, 'add', 'branch', 'save', 'adminForm');\">"
-					. Text::_('JSAVE') . '</button>'
-			]
-		);
-		return $html;
 	}
 }

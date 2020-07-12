@@ -3,6 +3,7 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Scouterna\Scoutorg\Lib;
 
 defined('_JEXEC') or die('Restricted Access');
 
@@ -14,7 +15,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 		<?= $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10 j-toggle-main">
-		<?php if (empty($this->items)) : ?>
+		<?php if (empty($this->branches)) : ?>
 			<div class="alert alert-no-items">
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
@@ -26,38 +27,47 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 						<th width="2%">
 							<?= HTMLHelper::_('grid.checkall'); ?>
 						</th>
-						<th width="90%">
+						<th width="50%">
 							<?= Text::_('COM_SCOUTORG_BRANCH_NAME_LABEL') ?>
+						</th>
+						<th width="40%">
+							Source
 						</th>
 						<th width="2%">
 							<?= Text::_('COM_SCOUTORG_BRANCH_ID_LABEL') ?>
 						</th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<td colspan="5">
-							<?= $this->pagination->getListFooter() ?>
-						</td>
-					</tr>
-				</tfoot>
 				<tbody>
-					<?php foreach ($this->items as $i => $row) : ?>
+					<?php $i = 1;
+					/** @var Lib\Branch $branch */
+					foreach ($this->branches as $branch) : ?>
 						<tr>
-							<td><?= $this->pagination->getRowOffset($i); ?></td>
+							<td><?= $i ?></td>
+							<?php if ($branch->source == 'joomla') : ?>
+								<td>
+									<?= HTMLHelper::_('grid.id', $i, $branch->id); ?>
+								</td>
+								<td>
+									<a href="<?= Route::_('index.php?option=com_scoutorg&task=branch.edit&id=' . $branch->id) ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_BRANCH'); ?>">
+										<?= $branch->name; ?>
+									</a>
+								</td>
+							<?php else : ?>
+								<td></td>
+								<td>
+									<?= $branch->name ?>
+								</td>
+							<?php endif; ?>
 							<td>
-								<?= HTMLHelper::_('grid.id', $i, $row->id); ?>
-							</td>
-							<td>
-								<a href="<?= Route::_('index.php?option=com_scoutorg&task=branch.edit&id=' . $row->id) ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_BRANCH'); ?>">
-									<?= $row->name; ?>
-								</a>
+								<?= $branch->source ?>
 							</td>
 							<td align="center">
-								<?= $row->id; ?>
+								<?= $branch->id; ?>
 							</td>
 						</tr>
-					<?php endforeach; ?>
+					<?php $i++;
+					endforeach; ?>
 				</tbody>
 			</table>
 		<?php endif; ?>
@@ -66,4 +76,3 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 		<?= HTMLHelper::_('form.token'); ?>
 	</div>
 </form>
-<?= $this->modal ?>
