@@ -5,9 +5,9 @@ CREATE TABLE `#__scoutorg_branches` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS '#__scoutorg_branchtroops'
+DROP TABLE IF EXISTS `#__scoutorg_branchtroops`;
 CREATE TABLE `#__scoutorg_branchtroops` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `branch_source` VARCHAR(45) NOT NULL,
   `branch_id` VARCHAR(45) NOT NULL,
   `troop_source` VARCHAR(45) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE `#__scoutorg_customlists` (
 DROP TABLE IF EXISTS `#__scoutorg_groupmemberroles`;
 CREATE TABLE `#__scoutorg_groupmemberroles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_source` varchar(45) NOT NULL
+  `member_source` varchar(45) NOT NULL,
   `member_id` varchar(45) NOT NULL,
   `role_source` varchar(45) NOT NULL,
   `role_id` varchar(45) NOT NULL,
