@@ -1,27 +1,23 @@
 DROP TABLE IF EXISTS `#__scoutorg_branches`;
 CREATE TABLE `#__scoutorg_branches` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
+  `name` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `#__scoutorg_branchtroops`;
 CREATE TABLE `#__scoutorg_branchtroops` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `branch_source` VARCHAR(45) NOT NULL,
-  `branch_id` VARCHAR(45) NOT NULL,
-  `troop_source` VARCHAR(45) NOT NULL,
-  `troop_id` VARCHAR(45) NOT NULL,
+  `branch` VARCHAR(64) NOT NULL,
+  `troop` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `#__scoutorg_customlistmembers`;
 CREATE TABLE `#__scoutorg_customlistmembers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `customlist_source` varchar(45) NOT NULL,
-  `customlist_id` varchar(45) NOT NULL,
-  `member_source` varchar(45) NOT NULL,
-  `member_id` varchar(45) NOT NULL,
+  `customlist` varchar(64) NOT NULL,
+  `member` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -30,18 +26,15 @@ CREATE TABLE `#__scoutorg_customlists` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(64) NOT NULL,
   `description` text,
-  `parent_source` varchar(45) NOT NULL,
-  `parent_id` varchar(45) NOT NULL,
+  `parent` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `#__scoutorg_groupmemberroles`;
 CREATE TABLE `#__scoutorg_groupmemberroles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_source` varchar(45) NOT NULL,
-  `member_id` varchar(45) NOT NULL,
-  `role_source` varchar(45) NOT NULL,
-  `role_id` varchar(45) NOT NULL,
+  `groupmember` varchar(64) NOT NULL,
+  `role` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -55,20 +48,16 @@ CREATE TABLE `#__scoutorg_grouproles` (
 DROP TABLE IF EXISTS `#__scoutorg_patrolmemberroles`;
 CREATE TABLE `#__scoutorg_patrolmemberroles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `patrolmember_source` varchar(45) NOT NULL,
-  `patrolmember_id` varchar(45) NOT NULL,
-  `role_source` varchar(45) NOT NULL,
-  `role_id` varchar(45) NOT NULL,
+  `patrolmember` varchar(64) NOT NULL,
+  `role` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `#__scoutorg_patrolmembers`;
 CREATE TABLE `#__scoutorg_patrolmembers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `patrol_source` varchar(45) NOT NULL,
-  `patrol_id` varchar(45) NOT NULL,
-  `member_source` varchar(45) NOT NULL,
-  `member_id` varchar(45) NOT NULL,
+  `patrol` varchar(64) NOT NULL,
+  `member` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -83,28 +72,23 @@ DROP TABLE IF EXISTS `#__scoutorg_patrols`;
 CREATE TABLE `#__scoutorg_patrols` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
-  `troop_source` varchar(45) NOT NULL,
-  `troop_id` varchar(45) NOT NULL,
+  `troop` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `#__scoutorg_troopmemberroles`;
 CREATE TABLE `#__scoutorg_troopmemberroles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `troopmember_source` varchar(45) NOT NULL,
-  `troopmember_id` varchar(11) NOT NULL,
-  `role_source` varchar(45) NOT NULL,
-  `role_id` varchar(45) NOT NULL,
+  `troopmember` varchar(64) NOT NULL,
+  `role` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `#__scoutorg_troopmembers`;
 CREATE TABLE `#__scoutorg_troopmembers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `troop_source` varchar(45) NOT NULL,
-  `troop_id` varchar(45) NOT NULL,
-  `member_source` varchar(45) NOT NULL,
-  `member_id` varchar(45) NOT NULL,
+  `troop` varchar(64) NOT NULL,
+  `member` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -119,6 +103,18 @@ DROP TABLE IF EXISTS `#__scoutorg_troops`;
 CREATE TABLE `#__scoutorg_troops` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__scoutorg_userprofilefields`;
+CREATE TABLE `#__scoutorg_userprofilefields` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(45) NOT NULL,
+  `ordering` int(11) NOT NULL,
+  `access` int(11) NOT NULL DEFAULT '0',
+  `fieldtype` varchar(45) NOT NULL,
+  `fieldcode` text NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
