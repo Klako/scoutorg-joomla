@@ -2,6 +2,7 @@
 
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
+use Scouterna\Scoutorg\Builder\Uid;
 
 defined('_JEXEC') or die('Restricted access');
 
@@ -33,7 +34,8 @@ class JFormFieldBranches extends JFormFieldList
         }
 
         foreach ($scoutgroup->branches as $branch) {
-            $options[] = JHtmlSelect::option("{$branch->source}:{$branch->id}", $branch->name);
+            $serializedUid = (new Uid($branch->source, $branch->id))->serialize();
+            $options[] = JHtmlSelect::option($serializedUid, $branch->name);
         }
 
         $options = array_merge(parent::getOptions(), $options);
