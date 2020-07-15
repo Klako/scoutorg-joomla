@@ -25,9 +25,10 @@ class ScoutGroupHandler extends Handler
     {
         if ($name == 'branches') {
             return $this->getBranchLinks();
-        } else {
-            return [];
+        } elseif ($name == 'troops') {
+            return $this->getTroopLinks();
         }
+        return [];
     }
 
     private function getBranchLinks()
@@ -38,10 +39,23 @@ class ScoutGroupHandler extends Handler
         $this->db->setQuery($query);
 
         $uids = [];
-        foreach ($this->db->loadAssocList() as $row){
+        foreach ($this->db->loadAssocList() as $row) {
             $uids[] = new Uid('joomla', $row['id']);
         }
+        return $uids;
+    }
 
+    private function getTroopLinks()
+    {
+        $query = $this->db->getQuery(true);
+        $query->select(['id'])->from('#__scoutorg_troops');
+
+        $this->db->setQuery($query);
+
+        $uids = [];
+        foreach ($this->db->loadAssocList() as $row) {
+            $uids[] = new Uid('joomla', $row['id']);
+        }
         return $uids;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Scouterna\Scoutorg\Joomorg;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Scouterna\Scoutorg\Builder\Bases\BranchBase;
 use Scouterna\Scoutorg\Builder\Uid;
 
@@ -16,13 +17,13 @@ class BranchHandler extends Handler
     {
         $query = $this->db->getQuery(true);
 
-        $query->select(['id', 'name'])
+        $query->select(['name'])
             ->from('#__scoutorg_branches')
             ->where("{$query->qn('id')} = {$query->q($id)}");
 
         $this->db->setQuery($query);
 
-        if (($row = $this->db->loadAssoc()) == null){
+        if (($row = $this->db->loadAssoc()) == null) {
             return null;
         }
 
@@ -36,22 +37,29 @@ class BranchHandler extends Handler
 
     public function getLinks($uid, $name)
     {
-        if ($uid->getSource() != 'joomla'){
+        if ($name == 'troops') {
+            return $this->getTroopLinks($uid);
+        } else {
             return [];
         }
+    }
 
+    public function getTroopLinks($uid)
+    {
         $query = $this->db->getQuery(true);
 
-        $query->select(['id', 'branch'])
-            ->from('#__scoutorg_troops')
-            ->where("{$query->qn('branch')} = {$query->quote($uid->getId())}");
+        $query->select(['troop'])
+            ->from('#__scoutorg_branchtroops')
+            ->where("{$query->qn('branch')} = {$query->quote($uid->serialize())}");
 
         $this->db->setQuery($query);
 
-        if (($row = $this->db->loadAssoc()) == null){
-            return null;
+        $troops = [];
+
+        foreach ($this->db->loadAssocList() as $branchtroop) {
+            $troops[] = Uid::deserialize($branchtroop['troop']);
         }
 
-        return new Uid('joomla', $row['branch']);
+        return $troops;
     }
 }

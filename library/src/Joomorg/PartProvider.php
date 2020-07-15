@@ -16,6 +16,7 @@ class PartProvider implements IPartProvider
         $this->handlers = [];
         $this->handlers[Bases\ScoutGroupBase::class] = new ScoutGroupHandler($db);
         $this->handlers[Bases\BranchBase::class] = new BranchHandler($db);
+        $this->handlers[Bases\TroopBase::class] = new TroopHandler($db);
     }
 
     /**
