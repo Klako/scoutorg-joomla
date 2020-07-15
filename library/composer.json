@@ -5,7 +5,7 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "require": {
-        "klako/scoutorg": "^0.1"
+        "klako/scoutorg": "<1"
     },
     "autoload": {
         "psr-4": {

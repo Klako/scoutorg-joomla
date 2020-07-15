@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d14a9203b6c7c25fe461327fb7a8b204",
+    "content-hash": "3062a3f55d230508aef6e1259090c566",
     "packages": [
         {
             "name": "klako/scoutorg",
-            "version": "v0.1.2",
+            "version": "v0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Klako/scoutorg.git",
-                "reference": "eb907d0879ee63d9385c4a1432a09ed77872ddfb"
+                "reference": "9353506d606977f41d4e0257fc3de2870dbf538a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Klako/scoutorg/zipball/eb907d0879ee63d9385c4a1432a09ed77872ddfb",
-                "reference": "eb907d0879ee63d9385c4a1432a09ed77872ddfb",
+                "url": "https://api.github.com/repos/Klako/scoutorg/zipball/9353506d606977f41d4e0257fc3de2870dbf538a",
+                "reference": "9353506d606977f41d4e0257fc3de2870dbf538a",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "MIT"
             ],
             "description": "Library for fetching scout group information.",
-            "time": "2020-07-11T02:13:40+00:00"
+            "time": "2020-07-13T20:52:08+00:00"
         }
     ],
     "packages-dev": [],
