@@ -1,6 +1,8 @@
 <?php
 
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
+use Scouterna\Scoutorg\Builder\Uid;
 
 class ScoutOrgModelTroops extends AdminModel
 {
@@ -18,20 +20,8 @@ class ScoutOrgModelTroops extends AdminModel
 
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Get the form.
-		$form = $this->loadForm(
-			'com_scoutorg.troop',
-			'troop',
-			array(
-				'control' => 'jform',
-				'load_data' => $loadData
-			)
-		);
-
-		if (empty($form)) {
-			return false;
-		}
-
-		return $form;
+		return null;
 	}
+
+	
 }

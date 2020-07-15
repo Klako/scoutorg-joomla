@@ -17,7 +17,7 @@
             type="branches"
             label="COM_SCOUTORG_TROOP_BRANCH_LABEL"
             description="COM_SCOUTORG_TROOP_BRANCH_DESC"
-            required="true"
+            required="false"
         />
     </fieldset>
 </form>

@@ -5,7 +5,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 
-class ScoutOrgTableTroop extends Table
+class ScoutOrgTableBranchtroop extends Table
 {
     /**
      * Constructor
@@ -14,22 +14,23 @@ class ScoutOrgTableTroop extends Table
      */
     public function __construct(&$db)
     {
-        parent::__construct('#__scoutorg_troops', 'id', $db);
+        parent::__construct('#__scoutorg_branchtroops', 'troop', $db);
     }
 
     public function check()
     {
-        $db = Factory::getDbo();
+        $db = $this->getDbo();
+
         $query = $db->getQuery(true);
 
         $query->select('id')
-            ->from($db->quoteName('#__scoutorg_troops'))
-            ->where("{$query->qn('id')} = {$query->q($this->id)}");
+            ->from($this->getTableName())
+            ->where("{$query->qn('troop')} = {$db->quote($this->troop)}");
         $db->setQuery($query);
 
         if (($result = $db->loadNextObject()) && $result->id != $this->id) {
             /** @var CMSObject $this */
-            $this->setError(Text::_('COM_SCOUTORG_ERROR_DUPLICATEID'));
+            $this->setError('Duplicate troop');
             return false;
         }
 
