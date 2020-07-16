@@ -12,7 +12,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Scouterna\Scoutorg\Builder;
-use Scouterna\Scoutorg\Lib\ScoutGroup;
+use Scouterna\Scoutorg\Model\ScoutGroup;
 use Scouterna\Scoutorg\Scoutnet;
 use Scouterna\Scoutorg\Joomorg;
 use Scouterna\Scoutorg\Model\Uid;
