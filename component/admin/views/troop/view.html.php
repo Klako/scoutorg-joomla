@@ -21,7 +21,7 @@ class ScoutOrgViewTroop extends HtmlView
     {
         // Get the Data
         $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
+        $this->troop = $this->get('Troop');
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {

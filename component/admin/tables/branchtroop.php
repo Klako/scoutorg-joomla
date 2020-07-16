@@ -23,12 +23,12 @@ class ScoutOrgTableBranchtroop extends Table
 
         $query = $db->getQuery(true);
 
-        $query->select('id')
+        $query->select('troop')
             ->from($this->getTableName())
             ->where("{$query->qn('troop')} = {$db->quote($this->troop)}");
         $db->setQuery($query);
 
-        if (($result = $db->loadNextObject()) && $result->id != $this->id) {
+        if (($result = $db->loadNextObject()) && $result->troop != $this->troop) {
             /** @var CMSObject $this */
             $this->setError('Duplicate troop');
             return false;

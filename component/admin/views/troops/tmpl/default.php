@@ -3,13 +3,13 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Scouterna\Scoutorg\Lib;
+use Scouterna\Scoutorg\Model;
 
 defined('_JEXEC') or die('Restricted Access');
 
 HTMLHelper::_('formbehavior.chosen', 'select');
 
-/** @var Lib\ScoutGroup */
+/** @var Model\ScoutGroup */
 $scoutgroup = $this->scoutgroup;
 
 ?>
@@ -47,17 +47,18 @@ $scoutgroup = $this->scoutgroup;
 				<tbody>
 					<?php $i = 0;
 					foreach ($scoutgroup->troops as $troop) :
+						$serializedUid = $this->escape($troop->uid->serialize());
 					?>
 						<tr>
 							<td>
 								<?= $i ?>
 							</td>
-							<?php if ($troop->source == 'joomla') : ?>
+							<?php if ($troop->uid->getSource() == 'joomla') : ?>
 								<td>
-									<?= HTMLHelper::_('grid.id', $i, $troop->id); ?>
+									<?= HTMLHelper::_('grid.id', $i, $serializedUid); ?>
 								</td>
 								<td>
-									<a href="<?= Route::_('index.php?option=com_scoutorg&task=troop.edit&id=' . $troop->id); ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_TROOP') ?>">
+									<a href="<?= Route::_('index.php?option=com_scoutorg&task=troop.edit&id=' . $serializedUid); ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_TROOP') ?>">
 										<?= $troop->name ?>
 									</a>
 								</td>
@@ -71,10 +72,10 @@ $scoutgroup = $this->scoutgroup;
 								<?= $troop->branch->name ?? 'None' ?>
 							</td>
 							<td>
-								<?= $troop->source ?>
+								<?= $troop->uid->getSource() ?>
 							</td>
 							<td align="center">
-								<?= $troop->id; ?>
+								<?= $troop->uid->getId() ?>
 							</td>
 						</tr>
 					<?php $i++;

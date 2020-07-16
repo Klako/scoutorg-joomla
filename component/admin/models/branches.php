@@ -6,7 +6,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
-use Scouterna\Scoutorg\Builder\Uid;
+use Scouterna\Scoutorg\Model\Uid;
 
 class ScoutOrgModelBranches extends BaseDatabaseModel
 {

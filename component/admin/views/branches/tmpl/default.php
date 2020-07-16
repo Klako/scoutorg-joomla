@@ -3,8 +3,7 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Scouterna\Scoutorg\Builder\Uid;
-use Scouterna\Scoutorg\Lib;
+use Scouterna\Scoutorg\Model;
 
 defined('_JEXEC') or die('Restricted Access');
 
@@ -41,16 +40,16 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 				</thead>
 				<tbody>
 					<?php $i = 1;
-					/** @var Lib\Branch $branch */
+					/** @var Model\Branch $branch */
 					foreach ($this->branches as $branch) : ?>
 						<tr>
 							<td><?= $i ?></td>
-							<?php if ($branch->source == 'joomla') : ?>
+							<?php if ($branch->uid->getSource() == 'joomla') : ?>
 								<td>
-									<?= HTMLHelper::_('grid.id', $i, (new Uid($branch->source, $branch->id))->serialize()); ?>
+									<?= HTMLHelper::_('grid.id', $i, $branch->uid->serialize()); ?>
 								</td>
 								<td>
-									<a href="<?= Route::_('index.php?option=com_scoutorg&task=branch.edit&id=' . $branch->id) ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_BRANCH'); ?>">
+									<a href="<?= Route::_('index.php?option=com_scoutorg&task=branch.edit&id=' . $branch->uid->getId()) ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_BRANCH'); ?>">
 										<?= $branch->name; ?>
 									</a>
 								</td>
@@ -61,10 +60,10 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 								</td>
 							<?php endif; ?>
 							<td>
-								<?= $branch->source ?>
+								<?= $branch->uid->getSource() ?>
 							</td>
 							<td align="center">
-								<?= $branch->id; ?>
+								<?= $branch->uid->getId() ?>
 							</td>
 						</tr>
 					<?php $i++;

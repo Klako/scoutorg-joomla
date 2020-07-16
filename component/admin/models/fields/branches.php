@@ -34,7 +34,7 @@ class JFormFieldBranches extends JFormFieldList
         }
 
         foreach ($scoutgroup->branches as $branch) {
-            $serializedUid = (new Uid($branch->source, $branch->id))->serialize();
+            $serializedUid = $branch->uid->serialize();
             $options[] = JHtmlSelect::option($serializedUid, $branch->name);
         }
 
