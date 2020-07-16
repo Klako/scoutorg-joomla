@@ -2,9 +2,9 @@
 
 namespace Scouterna\Scoutorg\Joomorg;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Scouterna\Scoutorg\Builder\Bases\BranchBase;
-use Scouterna\Scoutorg\Builder\Uid;
+use Scouterna\Scoutorg\Builder\Link;
+use Scouterna\Scoutorg\Model\Uid;
 
 class BranchHandler extends Handler
 {
@@ -57,7 +57,7 @@ class BranchHandler extends Handler
         $troops = [];
 
         foreach ($this->db->loadAssocList() as $branchtroop) {
-            $troops[] = Uid::deserialize($branchtroop['troop']);
+            $troops[] = new Link(Uid::deserialize($branchtroop['troop']));
         }
 
         return $troops;

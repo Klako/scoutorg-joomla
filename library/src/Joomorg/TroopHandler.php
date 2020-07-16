@@ -4,7 +4,8 @@ namespace Scouterna\Scoutorg\Joomorg;
 
 use RuntimeException;
 use Scouterna\Scoutorg\Builder\Bases\TroopBase;
-use Scouterna\Scoutorg\Builder\Uid;
+use Scouterna\Scoutorg\Builder\Link;
+use Scouterna\Scoutorg\Model\Uid;
 
 class TroopHandler extends Handler
 {
@@ -54,7 +55,7 @@ class TroopHandler extends Handler
             return null;
         }
 
-        return Uid::deserialize($row['branch']);
+        return new Link(Uid::deserialize($row['branch']));
     }
 
     public function getLinks($uid, $name)

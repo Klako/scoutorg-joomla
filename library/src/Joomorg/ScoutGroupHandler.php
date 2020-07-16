@@ -2,7 +2,8 @@
 
 namespace Scouterna\Scoutorg\Joomorg;
 
-use Scouterna\Scoutorg\Builder\Uid;
+use Scouterna\Scoutorg\Builder\Link;
+use Scouterna\Scoutorg\Model\Uid;
 
 class ScoutGroupHandler extends Handler
 {
@@ -40,7 +41,7 @@ class ScoutGroupHandler extends Handler
 
         $uids = [];
         foreach ($this->db->loadAssocList() as $row) {
-            $uids[] = new Uid('joomla', $row['id']);
+            $uids[] = new Link(new Uid('joomla', $row['id']));
         }
         return $uids;
     }
@@ -54,7 +55,7 @@ class ScoutGroupHandler extends Handler
 
         $uids = [];
         foreach ($this->db->loadAssocList() as $row) {
-            $uids[] = new Uid('joomla', $row['id']);
+            $uids[] = new Link(new Uid('joomla', $row['id']));
         }
         return $uids;
     }

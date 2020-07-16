@@ -3,10 +3,10 @@
 namespace Scouterna\Scoutorg\Joomorg;
 
 use Scouterna\Scoutorg\Builder\Bases;
-use Scouterna\Scoutorg\Builder\IPartProvider;
-use Scouterna\Scoutorg\Builder\Uid;
+use Scouterna\Scoutorg\Model;
+use Scouterna\Scoutorg\Builder;
 
-class PartProvider implements IPartProvider
+class PartProvider implements Builder\IPartProvider
 {
     /** @var Handler[] */
     private $handlers;
@@ -33,7 +33,7 @@ class PartProvider implements IPartProvider
     /**
      * @inheritdoc
      */
-    public function getLinkPart(Uid $uid, string $type, string $name): ?Uid
+    public function getLinkPart(Model\Uid $uid, string $type, string $name): ?Builder\Link
     {
         if (!isset($this->handlers[$type])){
             return null;
@@ -45,7 +45,7 @@ class PartProvider implements IPartProvider
     /**
      * @inheritdoc
      */
-    public function getLinkParts(Uid $uid, string $type, string $name): array
+    public function getLinkParts(Model\Uid $uid, string $type, string $name): array
     {
         if (!isset($this->handlers[$type])){
             return [];

@@ -15,6 +15,7 @@ use Scouterna\Scoutorg\Builder;
 use Scouterna\Scoutorg\Lib\ScoutGroup;
 use Scouterna\Scoutorg\Scoutnet;
 use Scouterna\Scoutorg\Joomorg;
+use Scouterna\Scoutorg\Model\Uid;
 
 class ScoutorgLoader {
     /** @var Builder\ScoutorgBuilder Scout organisation instance */
@@ -39,7 +40,9 @@ class ScoutorgLoader {
             return false;
         }
 
-        return $builder->scoutGroups->get('scoutnet', self::$groupId);
+        $uid = new Uid('scoutnet', self::$groupId);
+
+        return $builder->scoutGroups->get($uid);
     }
 
     /**
