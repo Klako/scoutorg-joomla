@@ -22,7 +22,7 @@ class ScoutOrgViewBranch extends HtmlView
     {
         // Get the Data
         $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
+        $this->branch = $this->get('Branch');
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {

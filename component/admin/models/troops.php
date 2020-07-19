@@ -1,10 +1,8 @@
 <?php
 
-use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
-use Scouterna\Scoutorg\Builder\Uid;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
-class ScoutOrgModelTroops extends AdminModel
+class ScoutOrgModelTroops extends BaseDatabaseModel
 {
 	public function getTroops()
 	{
@@ -12,16 +10,4 @@ class ScoutOrgModelTroops extends AdminModel
 		$scoutgroup = ScoutorgLoader::loadGroup();
 		return $scoutgroup->troops;
 	}
-
-	public function getTable($name = 'Troop', $prefix = 'ScoutOrgTable', $options = array())
-	{
-		return parent::getTable($name, $prefix, $options);
-	}
-
-	public function getForm($data = array(), $loadData = true)
-	{
-		return null;
-	}
-
-	
 }

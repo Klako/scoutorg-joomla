@@ -3,63 +3,37 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Object\CMSObject;
 use Scouterna\Scoutorg\Model\Uid;
 
-class ScoutOrgModelTroop extends FormModel
+include_once 'orgobject.php';
+
+class ScoutOrgModelTroop extends OrgObjectModel
 {
-    public function getTable($type = 'Troop', $prefix = 'ScoutOrgTable', $config = array())
+    protected function getType()
     {
-        return Joomla\CMS\Table\Table::getInstance($type, $prefix, $config);
+        return 'Troop';
     }
 
-    public function getForm($data = array(), $loadData = true)
+    protected function fetchFormData()
     {
-        // Get the form.
-        $form = $this->loadForm(
-            'com_scoutorg.troop',
-            'troop',
-            array(
-                'control' => 'jform',
-                'load_data' => $loadData
-            )
-        );
-
-        if (empty($form)) {
-            return false;
-        }
-
-        return $form;
-    }
-
-    protected function loadFormData()
-    {
-        // Check the session for previously entered form data.
-        $data = Joomla\CMS\Factory::getApplication()->getUserState(
-            'com_scoutorg.edit.troop.data',
-            array()
-        );
-
-        if (empty($data)) {
-            $troop = $this->getTroop();
-            if ($troop) {
-                $data['id'] = $troop->uid->serialize();
-                $data['name'] = $troop->name;
-                $branch = $troop->branch;
-                if ($branch) {
-                    $data['branch'] = $branch->uid->serialize();
-                }
+        $data = [];
+        $troop = $this->getTroop();
+        if ($troop) {
+            $data['uid'] = $troop->uid->serialize();
+            $data['name'] = $troop->name;
+            $branch = $troop->branch;
+            if ($branch) {
+                $data['branch'] = $branch->uid->serialize();
             }
         }
-
         return $data;
     }
 
     public function getTroop()
     {
         jimport('scoutorg.loader');
-        $uid = Factory::getApplication()->input->getString('id');
+        $uid = Factory::getApplication()->input->getString('uid');
         if (!$uid) {
             return null;
         }
@@ -76,16 +50,16 @@ class ScoutOrgModelTroop extends FormModel
         /** @var ScoutOrgTableBranchtroop */
         $branchTroopTable = $this->getTable('Branchtroop');
         /** @var ScoutOrgTableTroop */
-        $troopTable = $this->getTable();
+        $troopTable = $this->getTable('Troop');
 
-        $uid = Uid::deserialize($data['id']);
+        $uid = Uid::deserialize($data['uid']);
 
         $troopTableData = [
             'name' => $data['name']
         ];
 
         if ($uid) {
-            $troopTableData['id'] = $uid->getId();
+            $troopTable->load(['id' => $uid->getId()]);
         }
 
         // Store the data.
@@ -103,6 +77,8 @@ class ScoutOrgModelTroop extends FormModel
             'troop' => $uid->serialize()
         ];
 
+        $branchTroopTable->load(['troop' => $uid->serialize()]);
+
         if (!$branchTroopTable->save($branchTroopData)) {
             /** @var CMSObject $branchTroopTable */
             /** @var CMSObject $this */
@@ -111,6 +87,28 @@ class ScoutOrgModelTroop extends FormModel
             $troopTable->delete();
 
             return false;
+        }
+
+        $this->setState('troop.id', $uid->serialize());
+
+        return true;
+    }
+
+    protected function deleteSingle(Uid $uid)
+    {
+        /** @var ScoutOrgTableTroop|CMSObject */
+        $troopTable = $this->getTable('Troop');
+        /** @var ScoutOrgTableBranchtroop|CMSObject */
+        $branchtroopTable = $this->getTable('Branchtroop');
+
+        if ($uid->getSource() != 'joomla') {
+            return false;
+        }
+
+        $troopTable->delete($uid->getId());
+
+        if ($branchtroopTable->load(['troop' => $uid->serialize()])) {
+            $branchtroopTable->delete();
         }
 
         return true;

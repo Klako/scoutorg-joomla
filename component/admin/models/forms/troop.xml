@@ -2,7 +2,7 @@
 <form>
     <fieldset name="troop" label="COM_SCOUTORG_TROOP">
         <field
-            name="id"
+            name="uid"
             type="hidden"
         />
         <field

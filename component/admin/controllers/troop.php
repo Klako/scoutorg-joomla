@@ -1,22 +1,11 @@
 <?php
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Router\Route;
+include_once 'orgobject.php';
 
-class ScoutOrgControllerTroop extends BaseController
+class ScoutOrgControllerTroop extends OrgObjectController
 {
-    public function add()
+    protected function getListViewName()
     {
-        $this->setRedirect(Route::_('index.php?option=com_scoutorg&view=troop'));
-    }
-
-    public function edit()
-    {
-        Factory::getApplication()->allowCache(false);
-
-        $id = Factory::getApplication()->input->getString('id');
-
-        $this->setRedirect(Route::_('index.php?option=com_scoutorg&view=troop&id=' . $id, false));
+        return 'troops';
     }
 }

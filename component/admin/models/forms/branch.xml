@@ -2,7 +2,7 @@
 <form>
     <fieldset name="branch" label="COM_SCOUTORG_BRANCH_FORM">
         <field
-            name="id"
+            name="uid"
             type="hidden"
         />
         <field

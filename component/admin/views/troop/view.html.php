@@ -20,8 +20,10 @@ class ScoutOrgViewTroop extends HtmlView
     public function display($tpl = null)
     {
         // Get the Data
-        $this->form = $this->get('Form');
-        $this->troop = $this->get('Troop');
+        /** @var ScoutOrgModelTroop */
+        $model = $this->getModel();
+        $this->form = $model->getForm();
+        $this->troop = $model->getTroop();
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {

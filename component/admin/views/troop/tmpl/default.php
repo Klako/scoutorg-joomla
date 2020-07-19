@@ -14,7 +14,7 @@ $troop = $this->troop;
 $serializedUid = $troop ? $troop->uid->serialize() : 'joomla:0';
 
 ?>
-<form action="<?= Route::_('index.php?option=com_scoutorg&layout=edit&id=' . $serializedUid) ?>"
+<form action="<?= Route::_('index.php?option=com_scoutorg&layout=default&uid=' . $serializedUid) ?>"
     method="post" name="adminForm" id="adminForm" class="form">
 	<div class="form-horizontal">
 		<?php foreach ($this->form->getFieldsets() as $name => $fieldset): ?>

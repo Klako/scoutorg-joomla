@@ -39,6 +39,6 @@ class ScoutOrgViewTroops extends HtmlView {
 	private function addToolbar() {	
 		ToolbarHelper::title(Text::_('COM_SCOUTORG_ADMINISTRATION'), 'generic.png');
 		ToolBarHelper::addNew('troop.add');
-		ToolBarHelper::deleteList('', 'troops.delete');
+		ToolBarHelper::deleteList('', 'troop.delete');
 	}
 }

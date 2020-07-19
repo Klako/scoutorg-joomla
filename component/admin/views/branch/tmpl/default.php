@@ -10,8 +10,11 @@ defined('_JEXEC') or die('Restricted access');
 
 /** @var Form */
 $form = $this->form;
+/** @var Troop */
+$troop = $this->troop;
+$serializedUid = $troop ? $troop->uid->serialize() : 'joomla:0';
 ?>
-<form action="<?php echo Route::_('index.php?option=com_scoutorg&id=' . (int) $this->item->id); ?>"
+<form action="<?= Route::_('index.php?option=com_scoutorg&uid=' . $serializedUid) ?>"
     method="post" name="adminForm" id="adminForm" class="form">
 	<div class="form-horizontal">
 		<?php foreach ($form->getFieldsets() as $name => $fieldset): ?>

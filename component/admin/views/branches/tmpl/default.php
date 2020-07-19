@@ -49,7 +49,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 									<?= HTMLHelper::_('grid.id', $i, $branch->uid->serialize()); ?>
 								</td>
 								<td>
-									<a href="<?= Route::_('index.php?option=com_scoutorg&task=branch.edit&id=' . $branch->uid->getId()) ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_BRANCH'); ?>">
+									<a href="<?= Route::_('index.php?option=com_scoutorg&task=branch.edit&uid=' . $branch->uid->serialize()) ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_BRANCH'); ?>">
 										<?= $branch->name; ?>
 									</a>
 								</td>

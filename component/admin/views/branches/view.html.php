@@ -43,6 +43,6 @@ class ScoutOrgViewBranches extends HtmlView
 	{
 		ToolbarHelper::title(Text::_('COM_SCOUTORG_ADMINISTRATION'), 'generic.png');
 		ToolbarHelper::addNew('branch.add');
-		ToolbarHelper::deleteList('', 'branches.delete');
+		ToolbarHelper::deleteList('', 'branch.delete');
 	}
 }

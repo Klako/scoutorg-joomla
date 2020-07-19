@@ -14,7 +14,7 @@ class ScoutOrgTableBranchtroop extends Table
      */
     public function __construct(&$db)
     {
-        parent::__construct('#__scoutorg_branchtroops', 'troop', $db);
+        parent::__construct('#__scoutorg_branchtroops', 'id', $db);
     }
 
     public function check()

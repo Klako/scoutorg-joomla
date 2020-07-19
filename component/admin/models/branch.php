@@ -2,46 +2,86 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
+use Scouterna\Scoutorg\Model\Uid;
 
-class ScoutorgModelBranch extends AdminModel
+require_once 'orgobject.php';
+
+class ScoutorgModelBranch extends OrgObjectModel
 {
-    public function getTable($type = 'Branch', $prefix = 'ScoutOrgTable', $config = array())
+    public function getBranch()
     {
-        return Joomla\CMS\Table\Table::getInstance($type, $prefix, $config);
+        jimport('scoutorg.loader');
+        $uid = Factory::getApplication()->input->getString('uid');
+        if (!$uid) {
+            return null;
+        }
+        $uid = Uid::deserialize($uid);
+        $scoutorg = ScoutorgLoader::load();
+        $branch = $scoutorg->branches->get($uid);
+        return $branch;
     }
 
-    public function getForm($data = array(), $loadData = true)
+    protected function getType()
     {
-        // Get the form.
-        $form = $this->loadForm(
-            'com_scoutorg.branch',
-            'branch',
-            array(
-                'control' => 'jform',
-                'load_data' => $loadData
-            )
-        );
+        return 'Branch';
+    }
 
-        if (empty($form)) {
+    protected function fetchFormData()
+    {
+        $data = [];
+        $branch = $this->getBranch();
+        if ($branch) {
+            $data['uid'] = $branch->uid->serialize();
+            $data['name'] = $branch->name;
+        }
+        return $data;
+    }
+
+    public function save($data)
+    {
+        jimport('scoutorg.loader');
+        /** @var ScoutOrgTableBranch|CMSObject */
+        $branchTable = $this->getTable('Branch');
+
+        $uid = Uid::deserialize($data['uid']);
+
+        $branchTableData = [
+            'name' => $data['name']
+        ];
+
+        if ($uid) {
+            $branchTable->load(['id' => $uid->getId()]);
+        }
+
+        // Store the data.
+        if (!$branchTable->save($branchTableData)) {
+            /** @var CMSObject $troopTable */
+            /** @var CMSObject $this */
+            $this->setError('unable to save branch' . $branchTable->getError());
             return false;
         }
 
-        return $form;
+        $uid = new Uid('joomla', $branchTable->id);
+
+        $this->setState('branch.id', $uid->serialize());
+
+        return true;
     }
 
-    protected function loadFormData()
+    protected function deleteSingle(Uid $uid)
     {
-        // Check the session for previously entered form data.
-        $data = \Joomla\CMS\Factory::getApplication()->getUserState(
-            'com_scoutorg.edit.branch.data',
-            array()
-        );
+        /** @var ScoutOrgTableBranch|CMSObject */
+        $branchTable = $this->getTable('Branch');
 
-        if (empty($data)) {
-            $data = $this->getItem();
+        if ($uid->getSource() != 'joomla') {
+            return false;
         }
 
-        return $data;
+        $branchTable->delete($uid->getId());
+
+        return true;
     }
 }
