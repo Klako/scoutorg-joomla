@@ -13,5 +13,12 @@
             size="40"
             required="true"
         />
+        <field
+            name="troops"
+            type="branchtroops"
+            label="Troops"
+            description="The troops for this branch"
+            multiple="true"
+         />
     </fieldset>
 </form>
