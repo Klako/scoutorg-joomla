@@ -24,7 +24,6 @@ class JFormFieldTroops extends JFormFieldList
     {
         jimport('scoutorg.loader');
         $scoutgroup = ScoutorgLoader::loadGroup();
-        $troops = $scoutgroup->troops;
 
         $options  = array();
 
