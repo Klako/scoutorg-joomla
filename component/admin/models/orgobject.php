@@ -207,9 +207,12 @@ abstract class OrgObjectModel extends FormModel
         if (!empty($removes)) {
             $q = $this->newQuery();
             $q->delete($table);
+            $q->where($q->qn($fromCol) . '=' . $q->q($uid->serialize()));
+            $conditions = [];
             foreach ($removes as $remove) {
-                $q->where($q->qn($toCol) . '=' . $q->q($remove), 'OR');
+                $conditions[] = $q->qn($toCol) . '=' . $q->q($remove);
             }
+            $q->andWhere($conditions);
             if (!$this->executeQuery($q)) {
                 return false;
             }
