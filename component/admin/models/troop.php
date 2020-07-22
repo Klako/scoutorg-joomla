@@ -43,7 +43,7 @@ class ScoutOrgModelTroop extends OrgObjectModel
         return $troop;
     }
 
-    public function save($data)
+    public function save(?Uid $uid, $data)
     {
         jimport('scoutorg.loader');
 

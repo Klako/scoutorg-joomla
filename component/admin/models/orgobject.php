@@ -1,6 +1,8 @@
 <?php
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Object\CMSObject;
 use Scouterna\Scoutorg\Model\Uid;
 
 abstract class OrgObjectModel extends FormModel
@@ -51,7 +53,58 @@ abstract class OrgObjectModel extends FormModel
 
     protected abstract function fetchFormData();
 
-    public abstract function save($data);
+    public abstract function save(?Uid $uid, $data);
+
+    protected function startTransaction()
+    {
+        $db = Factory::getDbo();
+        try {
+            $db->transactionStart(true);
+        } catch (RuntimeException $ex) {
+            /** @var CMSObject $this */
+            $this->setError($ex->getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    protected function newQuery()
+    {
+        $db = Factory::getDbo();
+        return $db->getQuery(true);
+    }
+
+    protected function executeQuery($query)
+    {
+        $db = Factory::getDbo();
+        $db->setQuery($query);
+        try {
+            if (!$db->execute($query)) {
+                /** @var CMSObject $this */
+                $this->setError($db->getErrorMsg());
+                return false;
+            }
+        } catch (RuntimeException $ex) {
+            /** @var CMSObject $this */
+            $this->setError($ex->getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    protected function endTransaction()
+    {
+        $db = Factory::getDbo();
+        try {
+            $db->transactionCommit();
+        } catch (RuntimeException $ex) {
+            /** @var CMSObject $this */
+            $this->setError($ex->getMessage());
+            $db->transactionRollback(true);
+            return false;
+        }
+        return true;
+    }
 
     public function delete($uids)
     {

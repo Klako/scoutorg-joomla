@@ -17,14 +17,17 @@ class JFormFieldBranchtroops extends JFormFieldList
         jimport('scoutorg.loader');
 
         /** @var self|FormField $this */
-        $branchUid = Uid::deserialize($this->form->getValue('uid'));
+        $branchUid = $this->form->getValue('uid');
+        if ($branchUid) {
+            $branchUid = Uid::deserialize($this->form->getValue('uid'));
+        }
 
         $scoutgroup = ScoutorgLoader::loadGroup();
 
         $options  = array();
 
         foreach ($scoutgroup->troops as $troop) {
-            if ($troop->branch === null || $troop->branch->uid == $branchUid) {
+            if ($troop->branch === null || ($branchUid && $troop->branch->uid == $branchUid)) {
                 $options[] = JHtmlSelect::option($troop->uid->serialize(), $troop->name);
             } else {
                 $options[] = JHtmlSelect::option($troop->uid->serialize(), $troop->name, ['disable' => true]);

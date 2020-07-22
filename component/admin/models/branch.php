@@ -44,74 +44,77 @@ class ScoutorgModelBranch extends OrgObjectModel
         return $data;
     }
 
-    public function save($data)
+    public function save(?Uid $uid, $data)
     {
         jimport('scoutorg.loader');
-        /** @var ScoutOrgTableBranch|CMSObject */
-        $branchTable = $this->getTable('Branch');
-        /** @var ScoutOrgTableBranchtroop|CMSObject */
-        $branchtroopTable = $this->getTable('Branchtroop');
 
-        $uid = Uid::deserialize($data['uid']);
-
-        $branchTableData = [
-            'name' => $data['name']
-        ];
-
-        if ($uid) {
-            $branchTable->load(['id' => $uid->getId()]);
-        }
-
-        // Store the data.
-        if (!$branchTable->save($branchTableData)) {
-            /** @var CMSObject $troopTable */
-            /** @var CMSObject $this */
-            $this->setError('unable to save branch' . $branchTable->getError());
+        if (!$this->startTransaction()) {
             return false;
         }
 
-        $uid = new Uid('joomla', $branchTable->id);
-
-        jimport('scoutorg.loader');
-        $scoutorg = ScoutorgLoader::load();
-        $branch = $scoutorg->branches->get($uid);
-        $troopsToAdd = [];
-        foreach ($data['troops'] as $troop) {
-            $troopsToAdd[$troop] = $troop;
+        $q = $this->newQuery();
+        if ($uid && $uid->getSource() == 'joomla') {
+            $q->update('#__scoutorg_branches')
+                ->set("{$q->qn('name')} = {$q->q($data['name'])}")
+                ->where("{$q->qn('id')} = {$q->q($uid->getId())}");
+        } elseif (!$uid) {
+            $q->insert('#__scoutorg_branches')
+                ->columns($q->qn('name'))
+                ->values($q->q($data['name']));
         }
-        $troopsToRemove = [];
+        if (!$this->executeQuery($q)) {
+            return false;
+        }
 
-        foreach ($branch->troops as $troop) {
-            $troopUid = $troop->uid->serialize();
-            if (!$troopsToAdd[$troopUid]) {
-                $troopsToRemove[] = $troopUid;
-            } else {
-                unset($troopsToAdd[$troopUid]);
+        $inserts = [];
+        foreach ($data['troops'] ?? [] as $troop) {
+            $inserts[$troop] = $troop;
+        }
+        $removes = [];
+
+        if (!$uid) {
+            $uid = new Uid('joomla', Factory::getDbo()->insertid());
+        } else {
+            $scoutorg = ScoutorgLoader::load();
+            $branch = $scoutorg->branches->get($uid);
+            foreach ($branch->troops as $troop) {
+                $insert = $troop->uid->serialize();
+                if (!$inserts[$insert]) {
+                    $removes[] = $insert;
+                } else {
+                    unset($inserts[$insert]);
+                }
             }
         }
 
-        foreach ($troopsToAdd as $troopUid) {
-            $branchtroopTable->id = null;
-
-            $branchtroopData = [
-                'branch' => $uid->serialize(),
-                'troop' => $troopUid
-            ];
-
-            if (!$branchtroopTable->save($branchtroopData)) {
-                /** @var CMSObject $branchTroopTable */
-                /** @var CMSObject $this */
-                $this->setError('unable to save branchtroop' . $branchtroopTable->getError());
-
+        if (!empty($inserts)) {
+            $q = $this->newQuery();
+            $inserts = array_map(function ($troop) use ($uid, $q) {
+                return "{$q->q($uid->serialize())},{$q->q($troop)}";
+            }, $inserts);
+            $q->insert('#__scoutorg_branchtroops')
+                ->columns(['branch', 'troop'])
+                ->values($inserts);
+            if (!$this->executeQuery($q)) {
                 return false;
             }
         }
 
-        foreach ($troopsToRemove as $troopUid) {
-            $branchtroopTable->load(['troop' => $troopUid]);
-            $branchtroopTable->delete();
+        if (!empty($removes)) {
+            $q = $this->newQuery();
+            $removes = implode(',', array_map(function ($troop) use ($q) {
+                return $q->q($troop);
+            }, $removes));
+            $q->delete('#__scoutorg_branchtroops')
+                ->where("{$q->qn('troop')} IN ($removes)");
+            if (!$this->executeQuery($q)) {
+                return false;
+            }
         }
 
+        if (!$this->endTransaction()) {
+            return false;
+        }
 
         $this->setState('branch.id', $uid->serialize());
 
@@ -128,6 +131,13 @@ class ScoutorgModelBranch extends OrgObjectModel
         }
 
         $branchTable->delete($uid->getId());
+
+        /** @var ScoutOrgTableBranchtroop|CMSObject */
+        $branchtroopTable = $this->getTable('Branchtroop');
+
+        while ($branchtroopTable->load(['branch' => $uid->serialize()])) {
+            $branchtroopTable->delete();
+        }
 
         return true;
     }

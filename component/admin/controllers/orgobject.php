@@ -6,6 +6,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Scouterna\Scoutorg\Model\Uid;
 
 abstract class OrgObjectController extends BaseController
 {
@@ -98,7 +99,8 @@ abstract class OrgObjectController extends BaseController
             return false;
         }
 
-        if (!$model->save($validData)) {
+        jimport('scoutorg.loader');
+        if (!$model->save(Uid::deserialize($uid), $validData)) {
             $app->enqueueMessage($model->getError(), 'error');
             $app->setUserState("$context.data", $data);
             if ($uid) {
@@ -133,27 +135,27 @@ abstract class OrgObjectController extends BaseController
     }
 
     public function delete()
-	{
-		// Check for request forgeries
-		$this->checkToken();
+    {
+        // Check for request forgeries
+        $this->checkToken();
 
-		// Get items to remove from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+        // Get items to remove from the request.
+        $cid = $this->input->get('cid', array(), 'array');
 
-		if (!is_array($cid) || count($cid) < 1) {
-			Log::add(Text::_('COM_SCOUTORG_NO_ITEM_SELECTED'), Log::WARNING, 'jerror');
-		} else {
-			// Get the model.
-			$model = $this->getModel();
+        if (!is_array($cid) || count($cid) < 1) {
+            Log::add(Text::_('COM_SCOUTORG_NO_ITEM_SELECTED'), Log::WARNING, 'jerror');
+        } else {
+            // Get the model.
+            $model = $this->getModel();
 
-			// Remove the items.
-			if ($model->delete($cid)) {
-				$this->setMessage(Text::plural('COM_SCOUTORG_N_ITEMS_DELETED', count($cid)));
-			} else {
-				$this->setMessage($model->getError(), 'error');
-			}
-		}
+            // Remove the items.
+            if ($model->delete($cid)) {
+                $this->setMessage(Text::plural('COM_SCOUTORG_N_ITEMS_DELETED', count($cid)));
+            } else {
+                $this->setMessage($model->getError(), 'error');
+            }
+        }
 
-		$this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->getListViewName()}", false));
-	}
+        $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->getListViewName()}", false));
+    }
 }
