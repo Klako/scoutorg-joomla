@@ -57,17 +57,15 @@ $scoutgroup = $this->scoutgroup;
 								<td>
 									<?= HTMLHelper::_('grid.id', $i, $serializedUid); ?>
 								</td>
-								<td>
-									<a href="<?= Route::_('index.php?option=com_scoutorg&task=troop.edit&uid=' . $serializedUid); ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_TROOP') ?>">
-										<?= $troop->name ?>
-									</a>
-								</td>
+
 							<?php else : ?>
 								<td></td>
-								<td>
-									<?= $troop->name ?>
-								</td>
 							<?php endif; ?>
+							<td>
+								<a href="<?= Route::_('index.php?option=com_scoutorg&task=troop.edit&uid=' . $serializedUid); ?>" title="<?= Text::_('COM_SCOUTORG_EDIT_TROOP') ?>">
+									<?= $troop->name ?>
+								</a>
+							</td>
 							<td>
 								<?= $troop->branch->name ?? 'None' ?>
 							</td>

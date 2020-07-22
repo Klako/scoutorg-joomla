@@ -3,6 +3,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Scouterna\Scoutorg\Model\Uid;
@@ -24,11 +25,6 @@ class ScoutorgModelBranch extends OrgObjectModel
         return $branch;
     }
 
-    protected function getType()
-    {
-        return 'Branch';
-    }
-
     protected function fetchFormData()
     {
         $data = [];
@@ -44,7 +40,7 @@ class ScoutorgModelBranch extends OrgObjectModel
         return $data;
     }
 
-    public function save(?Uid $uid, $data)
+    public function save(?Uid &$uid, $data)
     {
         jimport('scoutorg.loader');
 
@@ -52,93 +48,34 @@ class ScoutorgModelBranch extends OrgObjectModel
             return false;
         }
 
-        $q = $this->newQuery();
-        if ($uid && $uid->getSource() == 'joomla') {
-            $q->update('#__scoutorg_branches')
-                ->set("{$q->qn('name')} = {$q->q($data['name'])}")
-                ->where("{$q->qn('id')} = {$q->q($uid->getId())}");
-        } elseif (!$uid) {
-            $q->insert('#__scoutorg_branches')
-                ->columns($q->qn('name'))
-                ->values($q->q($data['name']));
-        }
-        if (!$this->executeQuery($q)) {
+        if (!$this->syncObjectBase('#__scoutorg_branches', $uid, ['name' => $data['name']])) {
             return false;
         }
 
-        $inserts = [];
-        foreach ($data['troops'] ?? [] as $troop) {
-            $inserts[$troop] = $troop;
-        }
-        $removes = [];
-
-        if (!$uid) {
-            $uid = new Uid('joomla', Factory::getDbo()->insertid());
-        } else {
-            $scoutorg = ScoutorgLoader::load();
-            $branch = $scoutorg->branches->get($uid);
-            foreach ($branch->troops as $troop) {
-                $insert = $troop->uid->serialize();
-                if (!$inserts[$insert]) {
-                    $removes[] = $insert;
-                } else {
-                    unset($inserts[$insert]);
-                }
-            }
-        }
-
-        if (!empty($inserts)) {
-            $q = $this->newQuery();
-            $inserts = array_map(function ($troop) use ($uid, $q) {
-                return "{$q->q($uid->serialize())},{$q->q($troop)}";
-            }, $inserts);
-            $q->insert('#__scoutorg_branchtroops')
-                ->columns(['branch', 'troop'])
-                ->values($inserts);
-            if (!$this->executeQuery($q)) {
-                return false;
-            }
-        }
-
-        if (!empty($removes)) {
-            $q = $this->newQuery();
-            $removes = implode(',', array_map(function ($troop) use ($q) {
-                return $q->q($troop);
-            }, $removes));
-            $q->delete('#__scoutorg_branchtroops')
-                ->where("{$q->qn('troop')} IN ($removes)");
-            if (!$this->executeQuery($q)) {
-                return false;
-            }
+        if (!$this->syncObjectLinks('#__scoutorg_branchtroops', $uid, 'branch', 'troop', $data['troops'] ?? [])) {
+            return false;
         }
 
         if (!$this->endTransaction()) {
             return false;
         }
 
-        $this->setState('branch.id', $uid->serialize());
-
         return true;
     }
 
-    protected function deleteSingle(Uid $uid)
+    public function delete($uids)
     {
-        /** @var ScoutOrgTableBranch|CMSObject */
-        $branchTable = $this->getTable('Branch');
-
-        if ($uid->getSource() != 'joomla') {
-            return false;
+        foreach ($uids as $uid) {
+            if ($uid->getSource() != 'joomla') {
+                continue;
+            }
+            if (!$this->easyDelete('#__scoutorg_branches', 'id', $uid->getId())) {
+                return false;
+            }
+            if (!$this->easyDelete('#__scoutorg_branchtroops', 'branch', $uid->serialize())) {
+                return false;
+            }
         }
-
-        $branchTable->delete($uid->getId());
-
-        /** @var ScoutOrgTableBranchtroop|CMSObject */
-        $branchtroopTable = $this->getTable('Branchtroop');
-
-        while ($branchtroopTable->load(['branch' => $uid->serialize()])) {
-            $branchtroopTable->delete();
-        }
-
         return true;
     }
 }

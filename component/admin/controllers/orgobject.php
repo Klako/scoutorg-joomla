@@ -75,7 +75,7 @@ abstract class OrgObjectController extends BaseController
         $app   = Factory::getApplication();
         $data  = $this->input->post->get('jform', array(), 'array');
         $context = "$this->option.edit.$this->context";
-        $uid = $data['uid'];
+        $serializedUid = $data['uid'];
 
         /** @var OrgObjectModel|CMSObject */
         $model = $this->getModel();
@@ -91,8 +91,8 @@ abstract class OrgObjectController extends BaseController
         if ($validData === false) {
             $app->enqueueMessage($model->getError(), 'error');
             $app->setUserState("$context.data", $data);
-            if ($uid) {
-                $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}&uid=$uid", false));
+            if ($serializedUid) {
+                $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}&uid=$serializedUid", false));
             } else {
                 $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}", false));
             }
@@ -100,11 +100,12 @@ abstract class OrgObjectController extends BaseController
         }
 
         jimport('scoutorg.loader');
-        if (!$model->save(Uid::deserialize($uid), $validData)) {
+        $uid = Uid::deserialize($serializedUid);
+        if (!$model->save($uid, $validData)) {
             $app->enqueueMessage($model->getError(), 'error');
             $app->setUserState("$context.data", $data);
-            if ($uid) {
-                $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}&uid=$uid", false));
+            if ($serializedUid) {
+                $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}&uid=$serializedUid", false));
             } else {
                 $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}", false));
             }
@@ -118,7 +119,7 @@ abstract class OrgObjectController extends BaseController
             $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->getListViewName()}", false));
         } else {
             $app->setUserState("$context.data", null);
-            $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}&uid={$model->getState($this->context . '.id')}", false));
+            $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}&uid={$uid->serialize()}", false));
         }
 
         return true;
@@ -142,14 +143,25 @@ abstract class OrgObjectController extends BaseController
         // Get items to remove from the request.
         $cid = $this->input->get('cid', array(), 'array');
 
+
+
         if (!is_array($cid) || count($cid) < 1) {
             Log::add(Text::_('COM_SCOUTORG_NO_ITEM_SELECTED'), Log::WARNING, 'jerror');
         } else {
-            // Get the model.
+            jimport('scoutorg.loader');
+            $uids = [];
+            foreach ($cid as $id) {
+                $uid = Uid::deserialize($id);
+                if ($uid) {
+                    $uids[] = $uid;
+                }
+            }
+
+            /** @var OrgObjectModel|CMSObject */
             $model = $this->getModel();
 
             // Remove the items.
-            if ($model->delete($cid)) {
+            if ($model->delete($uids)) {
                 $this->setMessage(Text::plural('COM_SCOUTORG_N_ITEMS_DELETED', count($cid)));
             } else {
                 $this->setMessage($model->getError(), 'error');

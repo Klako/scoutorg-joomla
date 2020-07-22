@@ -1,13 +1,11 @@
 <?php
 
-use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Controller\BaseController;
 
-class ScoutOrgControllerTroops extends AdminController
+class ScoutOrgControllerTroops extends BaseController
 {
-	public function getModel($name = 'Troop', $prefix = 'ScoutOrgModel', $config = array())
+	public function getModel($name = 'Troops', $prefix = 'ScoutOrgModel', $config = array())
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 }

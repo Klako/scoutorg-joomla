@@ -43,74 +43,44 @@ class ScoutOrgModelTroop extends OrgObjectModel
         return $troop;
     }
 
-    public function save(?Uid $uid, $data)
+    public function save(?Uid &$uid, $data)
     {
         jimport('scoutorg.loader');
 
-        /** @var ScoutOrgTableBranchtroop */
-        $branchTroopTable = $this->getTable('Branchtroop');
-        /** @var ScoutOrgTableTroop */
-        $troopTable = $this->getTable('Troop');
-
-        $uid = Uid::deserialize($data['uid']);
-
-        $troopTableData = [
-            'name' => $data['name']
-        ];
-
-        if ($uid) {
-            $troopTable->load(['id' => $uid->getId()]);
-        }
-
-        // Store the data.
-        if (!$troopTable->save($troopTableData)) {
-            /** @var CMSObject $troopTable */
-            /** @var CMSObject $this */
-            $this->setError('unable to save troop' . $troopTable->getError());
+        if (!$this->startTransaction()) {
             return false;
         }
 
-        $uid = new Uid('joomla', $troopTable->id);
-
-        $branchTroopData = [
-            'branch' => $data['branch'],
-            'troop' => $uid->serialize()
-        ];
-
-        $branchTroopTable->load(['troop' => $uid->serialize()]);
-
-        if (!$branchTroopTable->save($branchTroopData)) {
-            /** @var CMSObject $branchTroopTable */
-            /** @var CMSObject $this */
-            $this->setError('unable to save branchtroop' . $branchTroopTable->getError());
-
-            $troopTable->delete();
-
+        if (!$this->syncObjectBase('#__scoutorg_troops', $uid, ['name' => $data['name']])) {
             return false;
         }
 
-        $this->setState('troop.id', $uid->serialize());
+        $branches = $data['branch'] ? [$data['branch']] : [];
+
+        if (!$this->syncObjectLinks('#__scoutorg_branchtroops', $uid, 'troop', 'branch', $branches)) {
+            return false;
+        }
+
+        if (!$this->endTransaction()) {
+            return false;
+        }
 
         return true;
     }
 
-    protected function deleteSingle(Uid $uid)
+    public function delete($uids)
     {
-        /** @var ScoutOrgTableTroop|CMSObject */
-        $troopTable = $this->getTable('Troop');
-        /** @var ScoutOrgTableBranchtroop|CMSObject */
-        $branchtroopTable = $this->getTable('Branchtroop');
-
-        if ($uid->getSource() != 'joomla') {
-            return false;
+        foreach ($uids as $uid) {
+            if ($uid->getSource() != 'joomla') {
+                continue;
+            }
+            if (!$this->easyDelete('#__scoutorg_troops', 'id', $uid->getId())) {
+                return false;
+            }
+            if (!$this->easyDelete('#__scoutorg_branchtroops', 'troop', $uid->serialize())) {
+                return false;
+            }
         }
-
-        $troopTable->delete($uid->getId());
-
-        if ($branchtroopTable->load(['troop' => $uid->serialize()])) {
-            $branchtroopTable->delete();
-        }
-
         return true;
     }
 }
