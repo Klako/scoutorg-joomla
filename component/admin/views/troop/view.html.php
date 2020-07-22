@@ -32,13 +32,13 @@ class ScoutOrgViewTroop extends HtmlView
         }
 
         // Set the toolbar
-        $this->addToolBar();
+        $this->addToolBar(!isset($this->troop));
 
         // Display the template
         parent::display($tpl);
 
         // Set the document
-        $this->setDocument();
+        $this->setDocument(!isset($this->troop));
     }
 
     /**
@@ -48,14 +48,12 @@ class ScoutOrgViewTroop extends HtmlView
      *
      * @since   1.6
      */
-    protected function addToolBar()
+    protected function addToolBar($isNew)
     {
         $input = Factory::getApplication()->input;
 
         // Hide Joomla Administrator Main menu
         $input->set('hidemainmenu', true);
-
-        $isNew = ($this->item->id == 0);
 
         ToolbarHelper::title($isNew ? Text::_('COM_SCOUTORG_MANAGER_TROOP_NEW')
                                      : Text::_('COM_SCOUTORG_MANAGER_TROOP_EDIT'), 'troop');
@@ -75,9 +73,8 @@ class ScoutOrgViewTroop extends HtmlView
      *
      * @return void
      */
-    protected function setDocument()
+    protected function setDocument($isNew)
     {
-        $isNew = ($this->item->id == 0);
         $document = Factory::getDocument();
         $document->setTitle($isNew ? Text::_('COM_SCOUTORG_MANAGER_TROOP_NEW')
                                    : Text::_('COM_SCOUTORG_MANAGER_TROOP_EDIT'));
