@@ -22,6 +22,11 @@ class ScoutorgHelper
             $view == 'troops'
         );
         JHtmlSidebar::addEntry(
+            Text::_('Group Roles'),
+            'index.php?option=com_scoutorg&view=grouproles',
+            $view == 'grouproles'
+        );
+        JHtmlSidebar::addEntry(
             Text::_('COM_SCOUTORG_ADMIN_USERPROFILEFIELDS'),
             'index.php?option=com_scoutorg&view=userprofilefields',
             $view == 'userprofilefields'

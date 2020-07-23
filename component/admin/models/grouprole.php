@@ -8,7 +8,7 @@ require_once 'orgobject.php';
 
 class ScoutOrgModelGrouprole extends OrgObjectModel
 {
-    protected function getGrouprole()
+    public function getGrouprole()
     {
         jimport('scoutorg.loader');
         $uid = Factory::getApplication()->input->getString('uid');
@@ -19,11 +19,6 @@ class ScoutOrgModelGrouprole extends OrgObjectModel
         $scoutorg = ScoutorgLoader::load();
         $grouprole = $scoutorg->groupRoles->get($uid);
         return $grouprole;
-    }
-
-    protected function getType()
-    {
-        return 'grouprole';
     }
 
     protected function fetchFormData()
@@ -37,45 +32,33 @@ class ScoutOrgModelGrouprole extends OrgObjectModel
         return $data;
     }
 
-    public function save(?Uid $uid, $data)
+    public function save(?Uid &$uid, $data)
     {
-        /** @var ScoutOrgTableGrouprole|CMSObject */
-        $grouproleTable = $this->getTable('Grouprole');
-
-        $uid = Uid::deserialize($data['uid']);
-
-        $grouproleData = [
-            'name' => $data['name']
-        ];
-
-        if ($uid) {
-            $grouproleTable->load(['id' => $uid->getId()]);
-        }
-
-        // Store the data.
-        if (!$grouproleTable->save($grouproleData)) {
-            /** @var CMSObject $troopTable */
-            /** @var CMSObject $this */
-            $this->setError('unable to save grouprole' . $grouproleTable->getError());
+        if (!$this->startTransaction()) {
             return false;
         }
 
-        $this->setState('grouprole.id', $uid->serialize());
+        if (!$this->syncObjectBase('#__scoutorg_grouproles', $uid, ['name' => $data['name']])) {
+            return false;
+        }
+
+        if (!$this->endTransaction()) {
+            return false;
+        }
 
         return true;
     }
 
-    protected function deleteSingle(Uid $uid)
+    public function delete($uids)
     {
-        /** @var ScoutOrgTableGrouprole|CMSObject */
-        $grouproleTable = $this->getTable('Grouprole');
-
-        if ($uid->getSource() != 'joomla') {
-            return false;
+        foreach ($uids as $uid) {
+            if ($uid->getSource() != 'joomla') {
+                continue;
+            }
+            if (!$this->easyDelete('#__scoutorg_grouproles', 'id', $uid->getId())) {
+                return false;
+            }
         }
-
-        $grouproleTable->delete($uid->getId());
-
         return true;
     }
 }
