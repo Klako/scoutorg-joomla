@@ -32,8 +32,6 @@ abstract class OrgObjectController extends BaseController
         $this->registerTask('apply', 'save');
     }
 
-    protected abstract function getListViewName();
-
     public function getModel($name = '', $prefix = 'ScoutOrgModel', $config = array('ignore_request' => true))
     {
         if (empty($name)) {
