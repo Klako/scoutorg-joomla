@@ -12,7 +12,7 @@ require_once 'orgobject.php';
 
 class ScoutorgModelBranch extends OrgObjectModel
 {
-    public function getBranch()
+    protected function getBranch()
     {
         jimport('scoutorg.loader');
         $uid = Factory::getApplication()->input->getString('uid');

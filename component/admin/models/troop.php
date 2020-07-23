@@ -30,7 +30,7 @@ class ScoutOrgModelTroop extends OrgObjectModel
         return $data;
     }
 
-    public function getTroop()
+    protected function getTroop()
     {
         jimport('scoutorg.loader');
         $uid = Factory::getApplication()->input->getString('uid');
