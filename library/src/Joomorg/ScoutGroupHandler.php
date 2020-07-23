@@ -28,6 +28,8 @@ class ScoutGroupHandler extends Handler
             return $this->getBranchLinks();
         } elseif ($name == 'troops') {
             return $this->getTroopLinks();
+        } elseif ($name == 'grouproles') {
+            return $this->getGroupRoleLinks();
         }
         return [];
     }
@@ -39,11 +41,11 @@ class ScoutGroupHandler extends Handler
 
         $this->db->setQuery($query);
 
-        $uids = [];
+        $links = [];
         foreach ($this->db->loadAssocList() as $row) {
-            $uids[] = new Link(new Uid('joomla', $row['id']));
+            $links[] = new Link(new Uid('joomla', $row['id']));
         }
-        return $uids;
+        return $links;
     }
 
     private function getTroopLinks()
@@ -53,10 +55,24 @@ class ScoutGroupHandler extends Handler
 
         $this->db->setQuery($query);
 
-        $uids = [];
+        $links = [];
         foreach ($this->db->loadAssocList() as $row) {
-            $uids[] = new Link(new Uid('joomla', $row['id']));
+            $links[] = new Link(new Uid('joomla', $row['id']));
         }
-        return $uids;
+        return $links;
+    }
+
+    private function getGroupRoleLinks()
+    {
+        $query = $this->db->getQuery(true);
+        $query->select(['id'])->from('#__scoutorg_grouproles');
+
+        $this->db->setQuery($query);
+
+        $links = [];
+        foreach ($this->db->loadAssocList() as $row) {
+            $links[] = new Link(new Uid('joomla', $row['id']));
+        }
+        return $links;
     }
 }

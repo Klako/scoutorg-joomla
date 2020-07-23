@@ -17,6 +17,7 @@ class PartProvider implements Builder\IPartProvider
         $this->handlers[Bases\ScoutGroupBase::class] = new ScoutGroupHandler($db);
         $this->handlers[Bases\BranchBase::class] = new BranchHandler($db);
         $this->handlers[Bases\TroopBase::class] = new TroopHandler($db);
+        $this->handlers[Bases\GroupRoleBase::class] = new GroupRoleHandler($db);
     }
 
     /**
@@ -24,7 +25,7 @@ class PartProvider implements Builder\IPartProvider
      */
     public function getBasePart($id, string $type): ?Bases\ObjectBase
     {
-        if (!isset($this->handlers[$type])){
+        if (!isset($this->handlers[$type])) {
             return null;
         }
         return $this->handlers[$type]->getBase($id);
@@ -35,7 +36,7 @@ class PartProvider implements Builder\IPartProvider
      */
     public function getLinkPart(Model\Uid $uid, string $type, string $name): ?Builder\Link
     {
-        if (!isset($this->handlers[$type])){
+        if (!isset($this->handlers[$type])) {
             return null;
         }
 
@@ -47,7 +48,7 @@ class PartProvider implements Builder\IPartProvider
      */
     public function getLinkParts(Model\Uid $uid, string $type, string $name): array
     {
-        if (!isset($this->handlers[$type])){
+        if (!isset($this->handlers[$type])) {
             return [];
         }
 
