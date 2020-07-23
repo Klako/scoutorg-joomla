@@ -12,9 +12,9 @@ if (!Factory::getUser()->authorise('core.manage', 'com_scoutorg')) {
 
 JLoader::register('ScoutorgHelper', JPATH_COMPONENT . '/helpers/scoutorg.php');
 
-$controller = BaseController::getInstance('ScoutOrg');
-
 $input = Factory::getApplication()->input;
+
+$controller = BaseController::getInstance('ScoutOrg');
 $controller->execute($input->getCmd('task'));
 
 $controller->redirect();

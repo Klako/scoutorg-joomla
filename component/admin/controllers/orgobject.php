@@ -4,13 +4,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Scouterna\Scoutorg\Model\Uid;
 
 abstract class OrgObjectController extends BaseController
 {
-    protected $context;
+    protected $type;
 
     protected $option;
 
@@ -20,12 +21,12 @@ abstract class OrgObjectController extends BaseController
 
         $this->option = 'com_scoutorg';
 
-        if (empty($this->context)) {
+        if (empty($this->type)) {
             $r = null;
             if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r)) {
                 throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
             }
-            $this->context = strtolower($r[2]);
+            $this->type = strtolower($r[2]);
         }
 
         $this->registerTask('apply', 'save');
@@ -33,11 +34,10 @@ abstract class OrgObjectController extends BaseController
 
     protected abstract function getListViewName();
 
-
-    public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+    public function getModel($name = '', $prefix = 'ScoutOrgModel', $config = array('ignore_request' => true))
     {
         if (empty($name)) {
-            $name = $this->context;
+            $name = $this->type;
         }
 
         return parent::getModel($name, $prefix, $config);
@@ -45,25 +45,25 @@ abstract class OrgObjectController extends BaseController
 
     public function add()
     {
-        $context = "$this->option.edit.$this->context";
+        $context = "$this->option.edit.$this->type";
 
         Factory::getApplication()->setUserState("$context.data", null);
 
-        $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}", false));
+        $this->setRedirectToView();
 
         return true;
     }
 
     public function edit()
     {
-        $context = "$this->option.edit.$this->context";
+        $context = "$this->option.edit.$this->type";
 
         Factory::getApplication()->allowCache(false);
         Factory::getApplication()->setUserState("$context.data", null);
 
         $uid = Factory::getApplication()->input->getString('uid');
 
-        $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}&uid=$uid", false));
+        $this->setRedirectToView($uid);
 
         return true;
     }
@@ -74,7 +74,7 @@ abstract class OrgObjectController extends BaseController
 
         $app   = Factory::getApplication();
         $data  = $this->input->post->get('jform', array(), 'array');
-        $context = "$this->option.edit.$this->context";
+        $context = "$this->option.edit.$this->type";
         $serializedUid = $data['uid'];
 
         /** @var OrgObjectModel|CMSObject */
@@ -91,11 +91,7 @@ abstract class OrgObjectController extends BaseController
         if ($validData === false) {
             $app->enqueueMessage($model->getError(), 'error');
             $app->setUserState("$context.data", $data);
-            if ($serializedUid) {
-                $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}&uid=$serializedUid", false));
-            } else {
-                $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}", false));
-            }
+            $this->setRedirectToView($serializedUid);
             return false;
         }
 
@@ -104,11 +100,7 @@ abstract class OrgObjectController extends BaseController
         if (!$model->save($uid, $validData)) {
             $app->enqueueMessage($model->getError(), 'error');
             $app->setUserState("$context.data", $data);
-            if ($serializedUid) {
-                $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}&uid=$serializedUid", false));
-            } else {
-                $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}", false));
-            }
+            $this->setRedirectToView($serializedUid);
             return false;
         }
 
@@ -116,10 +108,10 @@ abstract class OrgObjectController extends BaseController
 
         if ($this->task == 'save') {
             $app->setUserState("$context.data", null);
-            $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->getListViewName()}", false));
+            $this->setRedirectToList();
         } else {
             $app->setUserState("$context.data", null);
-            $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->context}&uid={$uid->serialize()}", false));
+            $this->setRedirectToView($uid->serialize());
         }
 
         return true;
@@ -128,11 +120,11 @@ abstract class OrgObjectController extends BaseController
     public function cancel()
     {
         $this->checkToken();
-        $context = "$this->option.edit.$this->context";
+        $context = "{$this->option}.edit.{$this->type}";
 
         Factory::getApplication()->setUserState("$context.data", null);
 
-        $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->getListViewName()}", false));
+        $this->setRedirectToList();
     }
 
     public function delete()
@@ -168,6 +160,20 @@ abstract class OrgObjectController extends BaseController
             }
         }
 
-        $this->setRedirect(Route::_("index.php?option=com_scoutorg&view={$this->getListViewName()}", false));
+        $this->setRedirectToList();
+    }
+
+    private function setRedirectToList()
+    {
+        $this->setRedirect(Route::_("index.php?option=com_scoutorg&view=orgobjects&type={$this->type}", false));
+    }
+
+    private function setRedirectToView($uid = '')
+    {
+        $url = "index.php?option=com_scoutorg&view=orgobject&type={$this->type}";
+        if ($uid) {
+            $url .= "&uid={$uid}";
+        }
+        $this->setRedirect(Route::_($url, false));
     }
 }

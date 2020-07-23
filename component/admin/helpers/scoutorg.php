@@ -13,18 +13,18 @@ class ScoutorgHelper
     {
         JHtmlSidebar::addEntry(
             Text::_('COM_SCOUTORG_ADMIN_BRANCHES'),
-            'index.php?option=com_scoutorg&view=branches',
-            $view == 'branches'
+            'index.php?option=com_scoutorg&view=orgobjects&type=branch',
+            $view == 'branch'
         );
         JHtmlSidebar::addEntry(
             Text::_('COM_SCOUTORG_ADMIN_TROOPS'),
-            'index.php?option=com_scoutorg&view=troops',
-            $view == 'troops'
+            'index.php?option=com_scoutorg&view=orgobjects&type=troop',
+            $view == 'troop'
         );
         JHtmlSidebar::addEntry(
             Text::_('Group Roles'),
-            'index.php?option=com_scoutorg&view=grouproles',
-            $view == 'grouproles'
+            'index.php?option=com_scoutorg&view=orgobjects&type=grouprole',
+            $view == 'grouprole'
         );
         JHtmlSidebar::addEntry(
             Text::_('COM_SCOUTORG_ADMIN_USERPROFILEFIELDS'),

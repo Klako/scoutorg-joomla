@@ -3,17 +3,10 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Object\CMSObject;
-use Scouterna\Scoutorg\Model\OrgArray;
 use Scouterna\Scoutorg\Model\Uid;
-use Scouterna\Scoutorg\Model\OrgObject;
 
 abstract class OrgObjectModel extends FormModel
 {
-    public function getTable($type = '', $prefix = 'ScoutOrgTable', $config = array())
-    {
-        return Joomla\CMS\Table\Table::getInstance($type, $prefix, $config);
-    }
-
     public function getForm($data = array(), $loadData = true)
     {
         $formName = $this->getName();
