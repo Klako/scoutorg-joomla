@@ -249,7 +249,7 @@ class Members extends ApiEndpoint
 
     private static function addValueRaw($object, $rawName, $valueName, &$dbRow)
     {
-        if (!isset($dbRow[$rawName]) && $dbRow[$rawName] !== null) {
+        if (!isset($dbRow[$rawName]) || $dbRow[$rawName] === null) {
             return false;
         }
         $object->{$rawName} = (object) [
