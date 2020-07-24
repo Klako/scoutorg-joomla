@@ -38,7 +38,7 @@ class TroopHandler extends Handler
 
     /**
      * @param Uid $uid 
-     * @return null|Uid 
+     * @return null|Link 
      * @throws RuntimeException 
      */
     private function getBranchLink($uid)
@@ -60,5 +60,31 @@ class TroopHandler extends Handler
 
     public function getLinks($uid, $name)
     {
+        if ($name == 'patrols') {
+            return $this->getPatrolLinks($uid);
+        }
+        return [];
+    }
+
+    /**
+     * @param Uid $uid 
+     * @return Link[]
+     * @throws RuntimeException 
+     */
+    private function getPatrolLinks($uid)
+    {
+        $query = $this->db->getQuery(true);
+
+        $query->select('id')
+            ->from('#__scoutorg_patrols')
+            ->where($query->qn('troop') . '=' . $query->q($uid->serialize()));
+
+        $this->db->setQuery($query);
+
+        $patrols = [];
+        foreach ($this->db->loadAssocList() as $patrol) {
+            $patrols[] = new Link(new Uid('joomla', $patrol['id']));
+        }
+        return $patrols;
     }
 }
