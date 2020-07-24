@@ -70,8 +70,9 @@ class ScoutOrgViewOrgobject extends HtmlView
             : Text::_('JGLOBAL_EDIT'), $this->type);
         // Build the actions for new and existing records.
 
+        ToolbarHelper::apply("{$this->type}.apply");
         ToolBarHelper::save("{$this->type}.save", 'JTOOLBAR_SAVE');
-        ToolBarHelper::cancel("{$this->type}.cancel", 'JTOOLBAR_CANCEL');
+        ToolBarHelper::cancel("{$this->type}.cancel", $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 
         Text::script('COM_SCOUTORG_ERROR_INVALIDINPUT');
     }
