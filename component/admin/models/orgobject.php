@@ -173,7 +173,9 @@ abstract class OrgObjectModel extends FormModel
         $inserts = [];
         // index for easy checking.
         foreach ($goalUids as $goalUid) {
-            $inserts[$goalUid] = $goalUid;
+            if ($goalUid) {
+                $inserts[$goalUid] = $goalUid;
+            }
         }
         $removes = [];
 

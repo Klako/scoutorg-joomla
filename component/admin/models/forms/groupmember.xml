@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="member" label="Member info">
+        <field
+            name="uid"
+            type="hidden"
+        />
+        <field
+            name="name"
+            type="text"
+            label="Name"
+            description="The name of the member"
+            size="40"
+            disabled="true"
+        />
+        <field
+            name="grouproles"
+            type="grouproles"
+            label="Group Roles"
+            description="Group roles of the member"
+            multiple="true"
+        />
+    </fieldset>
+</form>

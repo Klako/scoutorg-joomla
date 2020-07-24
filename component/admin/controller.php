@@ -16,7 +16,7 @@ class ScoutOrgController extends BaseController
 	 * @var string
 	 * @since 12.2
 	 */
-	protected $default_view = 'branches';
+	protected $default_view = 'orgobjects';
 
 	public function getModel($name = '', $prefix = '', $config = array())
 	{

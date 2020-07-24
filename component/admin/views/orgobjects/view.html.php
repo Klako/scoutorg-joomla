@@ -24,22 +24,21 @@ class ScoutOrgViewOrgobjects extends HtmlView
         $app = Factory::getApplication();
 
         $this->type = strtolower($app->input->getString('type'));
+        $this->sidebar = ScoutorgHelper::addSubMenu($this->type);
+
         if (!$this->type) {
             $app->enqueueMessage('Missing type parameter', 'error');
-            return;
+        } else {
+            /** @var OrgObjectsModel */
+            $model = $this->getModel();
+            if (!($model instanceof OrgObjectsModel)) {
+                $app->enqueueMessage('Bad type parameter', 'error');
+                return;
+            }
+            $this->table = $model->getTable();
         }
-
-        /** @var OrgObjectsModel */
-        $model = $this->getModel();
-        if (!($model instanceof OrgObjectsModel)) {
-            $app->enqueueMessage('Bad type parameter', 'error');
-            return;
-        }
-
-        $this->table = $model->getTable();
 
         $this->addToolbar();
-        $this->sidebar = ScoutorgHelper::addSubMenu($this->type);
 
         parent::display($tpl);
 

@@ -28,12 +28,12 @@ class JFormFieldGrouproles extends JFormFieldList
 
         if ($this->required) {
             $options[] = JHtmlSelect::option('', Text::_('JGLOBAL_SELECT_AN_OPTION'));
-        } else {
+        } elseif (!$this->multiple) {
             $options[] = JHtmlSelect::option('', Text::_('JNONE'));
         }
 
         foreach ($scoutgroup->groupRoles as $grouprole) {
-            $options[] = JHtmlSelect::option("{$grouprole->source}:{$grouprole->id}", $grouprole->title);
+            $options[] = JHtmlSelect::option($grouprole->uid->serialize(), $grouprole->name);
         }
 
         $options = array_merge(parent::getOptions(), $options);

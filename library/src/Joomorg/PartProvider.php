@@ -18,6 +18,7 @@ class PartProvider implements Builder\IPartProvider
         $this->handlers[Bases\BranchBase::class] = new BranchHandler($db);
         $this->handlers[Bases\TroopBase::class] = new TroopHandler($db);
         $this->handlers[Bases\GroupRoleBase::class] = new GroupRoleHandler($db);
+        $this->handlers[Bases\GroupMemberBase::class] = new GroupMemberHandler($db);
     }
 
     /**
