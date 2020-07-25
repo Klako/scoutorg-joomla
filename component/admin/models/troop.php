@@ -3,16 +3,37 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Form\Form;
 use Scouterna\Scoutorg\Model\Uid;
 
-include_once 'orgobject.php';
+require_once 'orgobject.php';
+require_once 'subformbuttons.php';
 
 class ScoutOrgModelTroop extends OrgObjectModel
 {
+    private $removePattern = [];
+
     protected function getType()
     {
         return 'Troop';
+    }
+
+    /**
+     * 
+     * @param Form $form 
+     * @param mixed $data 
+     * @param string $group 
+     * @return void 
+     */
+    protected function preprocessForm(JForm $form, $data, $group = 'content')
+    {
+        parent::preprocessForm($form, $data, $group);
+        $buttons = new SubformButtons([true], $this->removePattern, [true]);
+        $form->subformbuttons = $buttons;
+        jimport('scoutorg.loader');
+        if (($uid = Uid::deserialize($data['uid'] ?? '')) && $uid->getSource() != 'joomla') {
+            $form->setFieldAttribute('name', 'readonly', 'true');
+        }
     }
 
     protected function fetchFormData()
@@ -25,6 +46,19 @@ class ScoutOrgModelTroop extends OrgObjectModel
             $branch = $troop->branch;
             if ($branch) {
                 $data['branch'] = $branch->uid->serialize();
+            }
+            $this->removePattern = [];
+            foreach ($troop->patrols as $patrol) {
+                if ($patrol->uid->getSource() == 'joomla') {
+                    $this->removePattern[] = true;
+                } else {
+                    $this->removePattern[] = false;
+                }
+                $data['patrols'][] = [
+                    'uid' => $patrol->uid->serialize(),
+                    'name' => $patrol->name,
+                    'source' => $patrol->uid->getSource()
+                ];
             }
         }
         return $data;
@@ -61,6 +95,12 @@ class ScoutOrgModelTroop extends OrgObjectModel
             return false;
         }
 
+        $patrols = $data['patrols'] ?: [];
+
+        if (!$this->syncSubObjects('#__scoutorg_patrols', 'troop', $uid->serialize(), $patrols, ['name'])) {
+            return false;
+        }
+
         if (!$this->endTransaction()) {
             return false;
         }
@@ -70,6 +110,10 @@ class ScoutOrgModelTroop extends OrgObjectModel
 
     public function delete($uids)
     {
+        if (!$this->startTransaction()) {
+            return false;
+        }
+
         foreach ($uids as $uid) {
             if ($uid->getSource() != 'joomla') {
                 continue;
@@ -80,7 +124,15 @@ class ScoutOrgModelTroop extends OrgObjectModel
             if (!$this->easyDelete('#__scoutorg_branchtroops', 'troop', $uid->serialize())) {
                 return false;
             }
+            if (!$this->easyDelete('#__scoutorg_patrols', 'troop', $uid->serialize())) {
+                return false;
+            }
         }
+
+        if (!$this->endTransaction()) {
+            return false;
+        }
+
         return true;
     }
 }

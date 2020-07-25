@@ -19,5 +19,33 @@
             description="COM_SCOUTORG_TROOP_BRANCH_DESC"
             required="false"
         />
+        <field
+            name="patrols"
+            type="orgobjectsubform"
+            label="Patrols"
+            description="The troop's patrols"
+            multiple="true"
+            buttons=""
+            layout="joomla.form.field.subform.repeatable-table"
+        >
+            <form>
+                <field 
+                    name="uid"
+                    type="hidden"
+                />
+                <field
+                    name="name"
+                    type="scoutorgtext"
+                    filter="safehtml"
+                />
+                <field
+                    name="source"
+                    type="text"
+                    filter="safehtml"
+                    readonly="true"
+                    default="joomla"
+                />
+            </form>
+        </field>
     </fieldset>
 </form>
