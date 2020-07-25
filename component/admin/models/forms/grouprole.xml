@@ -7,7 +7,7 @@
         />
         <field
             name="name"
-            type="text"
+            type="scoutorgtext"
             label="Group role name"
             description="The name of the group role"
             size="40"
