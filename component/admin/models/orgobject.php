@@ -170,42 +170,91 @@ abstract class OrgObjectModel extends FormModel
         string $toCol,
         array $goalUids
     ) {
-        $inserts = [];
-        // index for easy checking.
+        $rows = [];
         foreach ($goalUids as $goalUid) {
             if ($goalUid) {
-                $inserts[$goalUid] = $goalUid;
+                $rows[] = [
+                    $toCol => $goalUid
+                ];
             }
         }
+
+        return $this->syncTable($table, $fromCol, $uid->serialize(), $rows, $toCol);
+    }
+
+    protected function syncSubObjects(
+        string $table,
+        string $ownerColumn,
+        string $ownerUid,
+        array $goalRows,
+        array $syncColumns
+    ) {
+        $rows = [];
+        foreach ($goalRows as $goalRow) {
+            $row = [];
+            foreach ($syncColumns as $column) {
+                $row[$column] = $goalRow[$column];
+            }
+            $rowUid = Uid::deserialize($goalRow['uid']);
+            if ($rowUid) {
+                if ($rowUid->getSource() != 'joomla') {
+                    continue;
+                }
+                $row['id'] = $rowUid->getId();
+            }
+            $rows[] = $row;
+        }
+        return $this->syncTable($table, $ownerColumn, $ownerUid, $rows);
+    }
+
+    protected function syncTable(
+        string $table,
+        string $fixedColumn,
+        string $fixedValue,
+        array $goalRows,
+        string $key = 'id'
+    ) {
+        $inserts = [];
+        $insertsWithoutKey = [];
         $removes = [];
 
-        // Load current links in the db.
-        // Excludes links created by other sources.
-        $q = $this->newQuery();
-        $q->from($table)
-            ->select($toCol)
-            ->where($q->qn($fromCol) . '=' . $q->q($uid->serialize()));
-        if (($currentUids = $this->loadAssoc($q, $toCol)) === false) {
-            return false;
-        }
-        foreach ($currentUids as $currentUid) {
-            $value = $currentUid[$toCol];
-            if (!isset($inserts[$value])) {
-                $removes[] = $value;
+        // Pretend all rows must be inserted.
+        // Always insert rows without key.
+        foreach ($goalRows as $goalRow) {
+            $goalRow[$fixedColumn] = $fixedValue;
+            if (isset($goalRow[$key])) {
+                $inserts[$goalRow[$key]] = $goalRow;
             } else {
-                unset($inserts[$value]);
+                $insertsWithoutKey[] = $goalRow;
             }
         }
 
-        // Delete links that exist in db
-        // but not in savestate.
+        // Load current rows in the db.
+        $q = $this->newQuery();
+        $q->from($table)
+            ->select('*')
+            ->where($q->qn($fixedColumn) . '=' . $q->q($fixedValue));
+        if (($currentRows = $this->loadAssoc($q)) === false) {
+            return false;
+        }
+        foreach ($currentRows as $currentRow) {
+            $keyValue = $currentRow[$key];
+            if (isset($inserts[$keyValue])) {
+                unset($inserts[$keyValue]);
+            } else {
+                $removes[] = $currentRow[$key];
+            }
+        }
+
+        // Delete rows that exist in db
+        // but not in goalRows.
         if (!empty($removes)) {
             $q = $this->newQuery();
             $q->delete($table);
-            $q->where($q->qn($fromCol) . '=' . $q->q($uid->serialize()));
+            $q->where($q->qn($fixedColumn) . '=' . $q->q($fixedValue));
             $conditions = [];
             foreach ($removes as $remove) {
-                $conditions[] = $q->qn($toCol) . '=' . $q->q($remove);
+                $conditions[] = $q->qn($key) . '=' . $q->q($remove);
             }
             $q->andWhere($conditions);
             if (!$this->executeQuery($q)) {
@@ -213,20 +262,35 @@ abstract class OrgObjectModel extends FormModel
             }
         }
 
-        // Insert links that exist in 
-        // savestate but not in db.
-        if (!empty($inserts)) {
-            $q = $this->newQuery();
-            $q->insert($table)
-                ->columns([$q->qn($fromCol), $q->qn($toCol)]);
-            foreach ($inserts as $insert) {
-                $q->values($q->q($uid->serialize()) . ',' . $q->q($insert));
+        // Insert rows that exist in 
+        // goalRows but not in db.
+        foreach ($inserts as $insert) {
+            if (!$this->easyInsert($table, $insert)) {
+                return false;
             }
-            if (!$this->executeQuery($q)) {
+        }
+        foreach ($insertsWithoutKey as $insert) {
+            if (!$this->easyInsert($table, $insert)) {
                 return false;
             }
         }
 
+        return true;
+    }
+
+    protected function easyInsert($table, $binds)
+    {
+        $q = $this->newQuery();
+        $q->insert($table)
+            ->columns(array_map(function ($column) use ($q) {
+                return $q->qn($column);
+            }, array_keys($binds)))
+            ->values(implode(',', array_map(function ($value) use ($q) {
+                return $q->q($value);
+            }, $binds)));
+        if (!$this->executeQuery($q)) {
+            return false;
+        }
         return true;
     }
 
