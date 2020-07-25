@@ -1,20 +1,25 @@
 <?php
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 defined('_JEXEC') or die;
 
-JHtml::_('formbehavior.chosen', 'select');
+HTMLHelper::_('formbehavior.chosen', 'select');
 
 $saveOrderingUrl = 'index.php?option=com_scoutorg&task=userprofilefields.saveOrderAjax&tmpl=component';
-JHtml::_('sortablelist.sortable', 'fieldlist', 'adminForm', 'asc', $saveOrderingUrl);
+HTMLHelper::_('sortablelist.sortable', 'fieldlist', 'adminForm', 'asc', $saveOrderingUrl);
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_scoutorg&view=userprofilefields'); ?>" method="post" id="adminForm" name="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_scoutorg&view=userprofilefields'); ?>" method="post" id="adminForm" name="adminForm">
     <div id="j-sidebar-container" class="span2">
     	<?= $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10 j-toggle-main">
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped" id="fieldlist">
@@ -24,22 +29,22 @@ JHtml::_('sortablelist.sortable', 'fieldlist', 'adminForm', 'asc', $saveOrdering
 							-
 						</th>
 						<th width="1%">
-							<?php echo JHtml::_('grid.checkall'); ?>
+							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</th>
 						<th width="1%">
 							Status
 						</th>
 						<th width="20%">
-							<?php echo JText::_('COM_SCOUTORG_ADMIN_USERPROFILEFIELD_TITLE_LABEL'); ?>
+							<?php echo Text::_('COM_SCOUTORG_ADMIN_USERPROFILEFIELD_TITLE_LABEL'); ?>
 						</th>
 						<th class="nowrap hidden-phone">
-							<?php echo JText::_('COM_SCOUTORG_ADMIN_USERPROFILEFIELD_FIELDTYPE_LABEL'); ?>
+							<?php echo Text::_('COM_SCOUTORG_ADMIN_USERPROFILEFIELD_FIELDTYPE_LABEL'); ?>
 						</th>
                         <th>
-							<?php echo JText::_('JGRID_HEADING_ACCESS'); ?>
+							<?php echo Text::_('JGRID_HEADING_ACCESS'); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
-                            <?= JText::_('JGRID_HEADING_ID') ?>
+                            <?= Text::_('JGRID_HEADING_ID') ?>
 						</th>
 					</tr>
 				</thead>
@@ -60,18 +65,18 @@ JHtml::_('sortablelist.sortable', 'fieldlist', 'adminForm', 'asc', $saveOrdering
 							<input type="text" style="display:none" name="order[]" size="5" value="<?= $item->ordering ?>" class="width-20 text-area-order" />
 						</td>
 						<td class="center">
-							<?= JHtml::_('grid.id', $i, $item->id) ?>
+							<?= HTMLHelper::_('grid.id', $i, $item->id) ?>
 						</td>
 						<td>
-							<?= JHtml::_('jgrid.published', $item->published, $i, 'userprofilefields.') ?>
+							<?= HTMLHelper::_('jgrid.published', $item->published, $i, 'userprofilefields.') ?>
 						</td>
 						<td>
-							<a href="<?= JRoute::_('index.php?option=com_scoutorg&task=userprofilefield.edit&id=' . $item->id); ?>">
+							<a href="<?= Route::_('index.php?option=com_scoutorg&task=userprofilefield.edit&id=' . $item->id); ?>">
 								<?= $this->escape($item->title) ?>
                             </a>
 						</td>
 						<td class="hidden-phone">
-							<?= ScoutOrgHelper::evalFieldname($item->fieldtype) ?>
+							<?= ScoutorgHelper::evalFieldname($item->fieldtype) ?>
 						</td>
 						<td class="small hidden-phone">
 							<?= $this->escape($item->access_level); ?>
@@ -86,6 +91,6 @@ JHtml::_('sortablelist.sortable', 'fieldlist', 'adminForm', 'asc', $saveOrdering
 		<?php endif; ?>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

@@ -1,2 +1,15 @@
-DROP TABLE IF EXISTS `#__scoutorg_troops`;
 DROP TABLE IF EXISTS `#__scoutorg_branches`;
+DROP TABLE IF EXISTS `#__scoutorg_branchtroops`;
+DROP TABLE IF EXISTS `#__scoutorg_customlistmembers`;
+DROP TABLE IF EXISTS `#__scoutorg_customlists`;
+DROP TABLE IF EXISTS `#__scoutorg_groupmemberroles`;
+DROP TABLE IF EXISTS `#__scoutorg_grouproles`;
+DROP TABLE IF EXISTS `#__scoutorg_patrolmemberroles`;
+DROP TABLE IF EXISTS `#__scoutorg_patrolmembers`;
+DROP TABLE IF EXISTS `#__scoutorg_patrolroles`;
+DROP TABLE IF EXISTS `#__scoutorg_patrols`;
+DROP TABLE IF EXISTS `#__scoutorg_troopmemberroles`;
+DROP TABLE IF EXISTS `#__scoutorg_troopmembers`;
+DROP TABLE IF EXISTS `#__scoutorg_trooproles`;
+DROP TABLE IF EXISTS `#__scoutorg_troops`;
+DROP TABLE IF EXISTS `#__scoutorg_userprofilefields`;

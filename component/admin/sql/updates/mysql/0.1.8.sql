@@ -1,2 +1,0 @@
-ALTER TABLE `#__scoutorg_troops` 
-CHANGE COLUMN `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;

@@ -1,5 +1,8 @@
 <?php
 
-class ScoutOrgControllerTroop extends JControllerForm {
+include_once 'orgobject.php';
+
+class ScoutOrgControllerTroop extends OrgObjectController
+{
     
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Router\Route;
+
 defined('_JEXEC') or die('Restricted Access');
 ?>
 
@@ -8,7 +10,7 @@ defined('_JEXEC') or die('Restricted Access');
         <?php foreach ($this->lists as $list) : ?>
             <tr>
                 <td>
-                    <a href="<?= JRoute::_("index.php?option=com_scoutorg&view=customlists&id={$list->getId()}") ?>">
+                    <a href="<?= Route::_("index.php?option=com_scoutorg&view=customlists&id={$list->getId()}") ?>">
                         <?= $list->getTitle() ?>
                     </a>
                 </td>
@@ -32,7 +34,7 @@ defined('_JEXEC') or die('Restricted Access');
                 <?php foreach ($this->list->getSubLists() as $subList) : ?>
                     <tr>
                         <td>
-                            <a href="<?= JRoute::_("index.php?option=com_scoutorg&view=customlists&id={$this->path}.{$subList->getId()}") ?>">
+                            <a href="<?= Route::_("index.php?option=com_scoutorg&view=customlists&id={$this->path}.{$subList->getId()}") ?>">
                                 <?= $subList->getTitle() ?>
                             </a>
                         </td>
@@ -53,7 +55,7 @@ defined('_JEXEC') or die('Restricted Access');
             <?php foreach ($this->list->getMembers() as $member) : ?>
                 <tr>
                     <td>
-                        <a href="<?= JRoute::_("index.php?option=com_scoutorg&view=userprofile&id={$member->getId()}") ?>">
+                        <a href="<?= Route::_("index.php?option=com_scoutorg&view=userprofile&id={$member->getId()}") ?>">
                             <?php
                                 $pInfo = $member->getPersonInfo();
                                 echo "{$pInfo->getFirstname()} {$pInfo->getLastname()}";

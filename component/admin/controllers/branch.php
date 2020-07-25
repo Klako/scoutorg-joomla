@@ -1,5 +1,8 @@
 <?php
 
-class ScoutOrgControllerBranch extends JControllerForm {
+require_once 'orgobject.php';
+
+class ScoutOrgControllerBranch extends OrgObjectController
+{
     
 }

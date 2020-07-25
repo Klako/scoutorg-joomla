@@ -2,14 +2,14 @@
 <form>
     <fieldset name="troop" label="COM_SCOUTORG_TROOP">
         <field
-            name="id"
+            name="uid"
             type="hidden"
         />
         <field
-            name="troop"
-            type="troops"
-            label="COM_SCOUTORG_TROOP_TROOP_LABEL"
-            description="COM_SCOUTORG_TROOP_TROOP_DESC"
+            name="name"
+            type="text"
+            label="Name"
+            description="Name of the troop"
             required="true"
         />
         <field
@@ -17,7 +17,35 @@
             type="branches"
             label="COM_SCOUTORG_TROOP_BRANCH_LABEL"
             description="COM_SCOUTORG_TROOP_BRANCH_DESC"
-            required="true"
+            required="false"
         />
+        <field
+            name="patrols"
+            type="orgobjectsubform"
+            label="Patrols"
+            description="The troop's patrols"
+            multiple="true"
+            buttons=""
+            layout="joomla.form.field.subform.repeatable-table"
+        >
+            <form>
+                <field 
+                    name="uid"
+                    type="hidden"
+                />
+                <field
+                    name="name"
+                    type="scoutorgtext"
+                    filter="safehtml"
+                />
+                <field
+                    name="source"
+                    type="text"
+                    filter="safehtml"
+                    readonly="true"
+                    default="joomla"
+                />
+            </form>
+        </field>
     </fieldset>
 </form>

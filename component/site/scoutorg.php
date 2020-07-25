@@ -1,11 +1,15 @@
 <?php
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::register('ScoutOrgHelper', JPATH_COMPONENT . '/helpers/scoutorg.php');
+JLoader::register('ScoutorgHelper', JPATH_COMPONENT . '/helpers/scoutorg.php');
 
-$controller = JControllerLegacy::getInstance('ScoutOrg');
+$controller = BaseController::getInstance('ScoutOrg');
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 $controller->execute($input->getCmd('task'));
 
 $controller->redirect();

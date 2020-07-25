@@ -1,21 +1,41 @@
 <?php
 
-class ScoutOrgHelper {
+use Joomla\CMS\Language\Text;
+
+class ScoutorgHelper
+{
     /**
      * Generates a sidebar for all pages.
      * @param string $view The view name. Is hardcoded.
      * @return string
      */
-    public static function addSubMenu(string $view) {
-        JHtmlSidebar::addEntry(JText::_('COM_SCOUTORG_ADMIN_BRANCHES'), 
-            'index.php?option=com_scoutorg&view=branches',
-            $view == 'branches');
-        JHtmlSidebar::addEntry(JText::_('COM_SCOUTORG_ADMIN_TROOPS'),
-            'index.php?option=com_scoutorg&view=troops',
-            $view == 'troops');
-        JHtmlSidebar::addEntry(JText::_('COM_SCOUTORG_ADMIN_USERPROFILEFIELDS'),
+    public static function addSubMenu(string $view)
+    {
+        JHtmlSidebar::addEntry(
+            Text::_('COM_SCOUTORG_ADMIN_BRANCHES'),
+            'index.php?option=com_scoutorg&view=orgobjects&type=branch',
+            $view == 'branch'
+        );
+        JHtmlSidebar::addEntry(
+            Text::_('COM_SCOUTORG_ADMIN_TROOPS'),
+            'index.php?option=com_scoutorg&view=orgobjects&type=troop',
+            $view == 'troop'
+        );
+        JHtmlSidebar::addEntry(
+            Text::_('Group Roles'),
+            'index.php?option=com_scoutorg&view=orgobjects&type=grouprole',
+            $view == 'grouprole'
+        );
+        JHtmlSidebar::addEntry(
+            Text::_('Members'),
+            'index.php?option=com_scoutorg&view=orgobjects&type=groupmember',
+            $view == 'member'
+        );
+        JHtmlSidebar::addEntry(
+            Text::_('COM_SCOUTORG_ADMIN_USERPROFILEFIELDS'),
             'index.php?option=com_scoutorg&view=userprofilefields',
-            $view == 'userprofilefields');
+            $view == 'userprofilefields'
+        );
         return JHtmlSidebar::render();
     }
 
@@ -24,39 +44,40 @@ class ScoutOrgHelper {
      * @param string $field field type name
      * @return string|false
      */
-    public static function evalFieldname(string $field) {
+    public static function evalFieldname(string $field)
+    {
         if ($field === 'org-id') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_ID');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_ID');
         } elseif ($field === 'org-fullname') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_FULLNAME');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_FULLNAME');
         } elseif ($field === 'org-firstname') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_FIRSTNAME');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_FIRSTNAME');
         } elseif ($field === 'org-lastname') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_LASTNAME');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_LASTNAME');
         } elseif ($field === 'org-age') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_AGE');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_AGE');
         } elseif ($field === 'org-birthdate') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_BIRTHDATE');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_BIRTHDATE');
         } elseif ($field === 'org-gender') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_GENDER');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_GENDER');
         } elseif ($field === 'org-ssno') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_SSNO');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_SSNO');
         } elseif ($field === 'org-home') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_HOME');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_HOME');
         } elseif ($field === 'org-emails') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_EMAILS');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_EMAILS');
         } elseif ($field === 'org-telnrs') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_TELNRS');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_TELNRS');
         } elseif ($field === 'org-startdate') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_STARTDATE');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_STARTDATE');
         } elseif ($field === 'org-contacts') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_CONTACTS');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_CONTACTS');
         } elseif ($field === 'org-troops') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_TROOPS');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_TROOPS');
         } elseif ($field === 'org-rolegroups') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_ROLEGROUPS');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_ROLEGROUPS');
         } elseif ($field === 'org-code') {
-            return JText::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_CODE');
+            return Text::_('COM_SCOUTORG_USERPROFILEFIELD_FIELD_CODE');
         } else {
             return false;
         }

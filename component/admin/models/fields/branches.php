@@ -1,8 +1,12 @@
 <?php
 
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
+use Scouterna\Scoutorg\Builder\Uid;
+
 defined('_JEXEC') or die('Restricted access');
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 class JFormFieldBranches extends JFormFieldList
 {
@@ -18,19 +22,20 @@ class JFormFieldBranches extends JFormFieldList
      */
     protected function getOptions()
     {
-        $db    = JFactory::getDBO();
-        $query = $db->getQuery(true);
-        $query->select('id, name');
-        $query->from('#__scoutorg_branches');
-        
-        $db->setQuery((string) $query);
-        $results = $db->loadObjectList();
-        $options  = array();
+        jimport('scoutorg.loader');
+        $scoutgroup = ScoutorgLoader::loadGroup();
 
-        if ($results) {
-            foreach ($results as $result) {
-                $options[] = JHtml::_('select.option', $result->id, $result->name);
-            }
+        $options = [];
+
+        if ($this->required) {
+            $options[] = JHtmlSelect::option('', Text::_('JGLOBAL_SELECT_AN_OPTION'));
+        } else {
+            $options[] = JHtmlSelect::option('', Text::_('JNONE'));
+        }
+
+        foreach ($scoutgroup->branches as $branch) {
+            $serializedUid = $branch->uid->serialize();
+            $options[] = JHtmlSelect::option($serializedUid, $branch->name);
         }
 
         $options = array_merge(parent::getOptions(), $options);

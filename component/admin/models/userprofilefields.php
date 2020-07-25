@@ -1,6 +1,10 @@
 <?php
 
-class ScoutOrgModelUserprofilefields extends JModelList {
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Table;
+
+class ScoutOrgModelUserprofilefields extends ListModel {
     /**
 	 * Method to build an SQL query to load the list data.
 	 *
@@ -8,7 +12,7 @@ class ScoutOrgModelUserprofilefields extends JModelList {
 	 */
     protected function getListQuery() {
         // Initialize variables.
-        $db    = JFactory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
 
         // Create the base select statement.
@@ -61,7 +65,7 @@ class ScoutOrgModelUserprofilefields extends JModelList {
      * @return  boolean|JException  Boolean true on success, boolean false or JException instance on error
      */
     public function saveorder($pks, $order) {
-        $table = JTable::getInstance('Userprofilefield', 'ScoutOrgTable');
+        $table = Table::getInstance('Userprofilefield', 'ScoutOrgTable');
 
         foreach ($pks as $i => $pk) {
 			$table->load((int) $pk);
@@ -70,6 +74,8 @@ class ScoutOrgModelUserprofilefields extends JModelList {
 				$table->ordering = $order[$i];
 				
                 if (!$table->store()) {
+                    /** @var Joomla\Cms\Object\CMSObject $this */
+                    /** @var Joomla\Cms\Object\CMSObject $table */
                     $this->setError($table->getError());
                     return false;
                 }

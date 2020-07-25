@@ -1,19 +1,25 @@
 <?php
 
-class ScoutOrgRouter extends JComponentRouterView {
+use Joomla\CMS\Component\Router\RouterView;
+use Joomla\CMS\Component\Router\RouterViewConfiguration;
+use Joomla\CMS\Component\Router\Rules\MenuRules;
+use Joomla\CMS\Component\Router\Rules\NomenuRules;
+use Joomla\CMS\Component\Router\Rules\StandardRules;
+
+class ScoutOrgRouter extends RouterView {
     public function __construct($app = null, $menu = null) {
-        $profile = new JComponentRouterViewconfiguration('userprofile');
+        $profile = new RouterViewConfiguration('userprofile');
         $profile->setKey('id')->setNestable();
         $this->registerView($profile);
-        $customLists = new JComponentRouterViewconfiguration('customlists');
+        $customLists = new RouterViewConfiguration('customlists');
         $customLists->setKey('id')->setNestable()->setParent($customLists, 'id');
         $this->registerView($customLists);
 
         parent::__construct($app, $menu);
 
-        $this->attachRule(new JComponentRouterRulesMenu($this));
-        $this->attachRule(new JComponentRouterRulesStandard($this));
-        $this->attachRule(new JComponentRouterRulesNomenu($this));
+        $this->attachRule(new MenuRules($this));
+        $this->attachRule(new StandardRules($this));
+        $this->attachRule(new NomenuRules($this));
     }
 
     public function getUserprofileSegment($id, $query) {

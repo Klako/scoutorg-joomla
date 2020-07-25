@@ -1,6 +1,11 @@
 <?php
 
-class ScoutOrgViewUserprofilefield extends JViewLegacy
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
+class ScoutOrgViewUserprofilefield extends HtmlView
 {
     protected $form;
     protected $item;
@@ -43,24 +48,24 @@ class ScoutOrgViewUserprofilefield extends JViewLegacy
      */
     protected function addToolBar()
     {
-        $input = JFactory::getApplication()->input;
+        $input = Factory::getApplication()->input;
 
         // Hide Joomla Administrator Main menu
         $input->set('hidemainmenu', true);
 
         $isNew = ($this->item->id == 0);
 
-        JToolBarHelper::title($isNew ? JText::_('COM_SCOUTORG_MANAGER_USERPROFILEFIELD_NEW')
-                                     : JText::_('COM_SCOUTORG_MANAGER_USERPROFILEFIELD_EDIT'), 'userprofilefield');
+        ToolbarHelper::title($isNew ? Text::_('COM_SCOUTORG_MANAGER_USERPROFILEFIELD_NEW')
+                                     : Text::_('COM_SCOUTORG_MANAGER_USERPROFILEFIELD_EDIT'), 'userprofilefield');
         // Build the actions for new and existing records.
         
-        JToolBarHelper::apply('userprofilefield.apply', 'JTOOLBAR_APPLY');
-        JToolBarHelper::save('userprofilefield.save', 'JTOOLBAR_SAVE');
+        ToolbarHelper::apply('userprofilefield.apply', 'JTOOLBAR_APPLY');
+        ToolbarHelper::save('userprofilefield.save', 'JTOOLBAR_SAVE');
 
         if ($isNew) {
-            JToolBarHelper::cancel('userprofilefield.cancel', 'JTOOLBAR_CANCEL');
+            ToolbarHelper::cancel('userprofilefield.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolBarHelper::cancel('userprofilefield.cancel', 'JTOOLBAR_CLOSE');
+            ToolbarHelper::cancel('userprofilefield.cancel', 'JTOOLBAR_CLOSE');
         }
     }
     /**
@@ -71,9 +76,9 @@ class ScoutOrgViewUserprofilefield extends JViewLegacy
     protected function setDocument()
     {
         $isNew = ($this->item->id == 0);
-        $document = JFactory::getDocument();
-        $document->setTitle($isNew ? JText::_('COM_SCOUTORG_MANAGER_USERPROFILEFIELD_NEW')
-                                   : JText::_('COM_SCOUTORG_MANAGER_USERPROFILEFIELD_EDIT'));
-        JText::script('COM_SCOUTORG_ERROR_INVALIDINPUT');
+        $document = Factory::getDocument();
+        $document->setTitle($isNew ? Text::_('COM_SCOUTORG_MANAGER_USERPROFILEFIELD_NEW')
+                                   : Text::_('COM_SCOUTORG_MANAGER_USERPROFILEFIELD_EDIT'));
+        Text::script('COM_SCOUTORG_ERROR_INVALIDINPUT');
     }
 }

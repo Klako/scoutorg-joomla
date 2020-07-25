@@ -1,6 +1,9 @@
 <?php
 
-class ScoutorgViewUserprofile extends JViewLegacy {
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView;
+
+class ScoutorgViewUserprofile extends HtmlView {
     /** @var \Org\Lib\Member */
     protected $member;
     protected $user;
@@ -22,10 +25,10 @@ class ScoutorgViewUserprofile extends JViewLegacy {
     }
 
     private function getMemberId() {
-        $input = JFactory::getApplication()->input;
+        $input = Factory::getApplication()->input;
         $memberId = $input->get('id', null);
         if (!$memberId) {
-            $user = JFactory::getUser();
+            $user = Factory::getUser();
             if ($user->guest) {
                 return null;
             }

@@ -6,13 +6,12 @@
     <creationDate>2020-06-16</creationDate>
     <license>MIT</license>
     <url>https://github.com/klako/scoutorg-joomla</url>
-    <version>1.0.3</version>
+    <version>0.1</version>
     <description>COM_SCOUTORG_DESCRIPTION</description>
     <install>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
-            <file driver="mysql" charset="utf8">sql/updates/mysql/0.1.8.sql</file>
-            <file driver="mysql" charset="utf8">sql/updates/mysql/1.0.3.sql</file>
+            <file driver="mysql" charset="utf8">sql/updates/mysql/0.1.sql</file>
 		</sql>
 	</install>
 	<uninstall>
@@ -38,6 +37,9 @@
         <language tag="sv-SE">sv-SE/sv-SE.com_scoutorg.ini</language>
         <language tag="en-GB">en-GB/en-GB.com_scoutorg.ini</language>
     </languages>
+    <media destination="com_scoutorg" folder="media">
+		<folder>js</folder>
+	</media>
     <administration>
         <menu>Scoutorg</menu>
         <files folder="admin">

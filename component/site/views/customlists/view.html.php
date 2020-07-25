@@ -1,6 +1,9 @@
 <?php
 
-class ScoutOrgViewCustomlists extends JViewLegacy {
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView;
+
+class ScoutOrgViewCustomlists extends HtmlView {
     /** @var \Org\Lib\CustomList[] */
     protected $lists;
 
@@ -33,7 +36,7 @@ class ScoutOrgViewCustomlists extends JViewLegacy {
     private function getList($scoutorg, &$path) {
         $lists = $scoutorg->getCustomLists(true);
 
-        $input = JFactory::getApplication()->input;
+        $input = Factory::getApplication()->input;
         $ids = explode('.', $input->get('id', null));
         if ($ids === null) {
             return null;

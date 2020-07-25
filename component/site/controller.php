@@ -1,6 +1,8 @@
 <?php
 
-class ScoutOrgController extends JControllerLegacy {
+use Joomla\CMS\MVC\Controller\BaseController;
+
+class ScoutOrgController extends BaseController {
     public function display($cachable = false, $urlparams = false) {
         $viewName = $this->input->getCmd('view');
         if ($viewName === "userprofile") {

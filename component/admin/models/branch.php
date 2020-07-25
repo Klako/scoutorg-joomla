@@ -2,73 +2,80 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
+use Scouterna\Scoutorg\Model\Uid;
 
-class ScoutOrgModelBranch extends JModelAdmin
+require_once 'orgobject.php';
+
+class ScoutorgModelBranch extends OrgObjectModel
 {
-    /**
-     * Method to get a table object, load it if necessary.
-     *
-     * @param   string  $type    The table name. Optional.
-     * @param   string  $prefix  The class prefix. Optional.
-     * @param   array   $config  Configuration array for model. Optional.
-     *
-     * @return  JTable  A JTable object
-     *
-     * @since   1.6
-     */
-    public function getTable($type = 'Branch', $prefix = 'ScoutOrgTable', $config = array())
+    protected function getBranch()
     {
-        return JTable::getInstance($type, $prefix, $config);
+        jimport('scoutorg.loader');
+        $uid = Factory::getApplication()->input->getString('uid');
+        if (!$uid) {
+            return null;
+        }
+        $uid = Uid::deserialize($uid);
+        $scoutorg = ScoutorgLoader::load();
+        $branch = $scoutorg->branches->get($uid);
+        return $branch;
     }
 
-    /**
-     * Method to get the record form.
-     *
-     * @param   array    $data      Data for the form.
-     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-     *
-     * @return  mixed    A JForm object on success, false on failure
-     *
-     * @since   1.6
-     */
-    public function getForm($data = array(), $loadData = true)
+    protected function fetchFormData()
     {
-        // Get the form.
-        $form = $this->loadForm(
-            'com_scoutorg.branch',
-            'branch',
-            array(
-                'control' => 'jform',
-                'load_data' => $loadData
-            )
-        );
+        $data = [];
+        $branch = $this->getBranch();
+        if ($branch) {
+            $data['uid'] = $branch->uid->serialize();
+            $data['name'] = $branch->name;
+            $data['troops'] = [];
+            foreach ($branch->troops as $troop) {
+                $data['troops'][] = $troop->uid->serialize();
+            }
+        }
+        return $data;
+    }
 
-        if (empty($form)) {
+    public function save(?Uid &$uid, $data)
+    {
+        jimport('scoutorg.loader');
+
+        if (!$this->startTransaction()) {
             return false;
         }
 
-        return $form;
-    }
-
-    /**
-     * Method to get the data that should be injected in the form.
-     *
-     * @return  mixed  The data for the form.
-     *
-     * @since   1.6
-     */
-    protected function loadFormData()
-    {
-        // Check the session for previously entered form data.
-        $data = JFactory::getApplication()->getUserState(
-            'com_scoutorg.edit.branch.data',
-            array()
-        );
-
-        if (empty($data)) {
-            $data = $this->getItem();
+        if (!$this->syncObjectBase('#__scoutorg_branches', $uid, ['name' => $data['name']])) {
+            return false;
         }
 
-        return $data;
+        if (!$this->syncObjectLinks('#__scoutorg_branchtroops', $uid, 'branch', 'troop', $data['troops'] ?? [])) {
+            return false;
+        }
+
+        if (!$this->endTransaction()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function delete($uids)
+    {
+        foreach ($uids as $uid) {
+            if ($uid->getSource() != 'joomla') {
+                continue;
+            }
+            if (!$this->easyDelete('#__scoutorg_branches', 'id', $uid->getId())) {
+                return false;
+            }
+            if (!$this->easyDelete('#__scoutorg_branchtroops', 'branch', $uid->serialize())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

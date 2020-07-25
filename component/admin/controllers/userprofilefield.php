@@ -1,5 +1,7 @@
 <?php
 
-class ScoutOrgControllerUserprofilefield extends JControllerForm {
+use Joomla\CMS\MVC\Controller\FormController;
+
+class ScoutOrgControllerUserprofilefield extends FormController {
     
 }
