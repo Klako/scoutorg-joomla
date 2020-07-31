@@ -1,9 +1,11 @@
 <?php
 
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * @package Joomla.Administrator
@@ -47,8 +49,29 @@ class ScoutOrgViewOrgobjects extends HtmlView
 
     private function setDocument()
     {
+        /** @var Document */
         $document = Factory::getDocument();
         $document->setTitle(Text::_('COM_SCOUTORG_ADMINISTRATION'));
+        JHtmlJquery::framework();
+        $document->addScript(Uri::root() . 'media/com_scoutorg/js/datatables.min.js');
+        $document->addStyleSheet(Uri::root() . 'media/com_scoutorg/css/datatables.min.css');
+        $document->addScriptDeclaration(<<<'JS'
+            jQuery(document).ready(function() {
+                jQuery('#scoutorg-table').DataTable({
+                    columnDefs: [
+                        {
+                            className: "dt-head-center dt-body-center",
+                            targets: [1],
+                            orderable: false
+                        },
+                        {
+                            className: "dt-head-left dt-body-left",
+                            targets: "_all"
+                        }
+                    ]
+                });
+            });
+        JS);
     }
 
     private function addToolbar()

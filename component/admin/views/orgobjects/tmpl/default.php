@@ -22,11 +22,11 @@ HTMLHelper::_('formbehavior.chosen', 'select');
                 <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
-            <table class="table table-striped table-hover">
+            <table id="scoutorg-table" class="stripe hover row-border">
                 <thead>
                     <tr>
-                        <th width="1%"><?= Text::_('COM_SCOUTORG_NUM') ?></th>
-                        <th width="2%">
+                        <th><?= Text::_('COM_SCOUTORG_NUM') ?></th>
+                        <th>
                             <?= HTMLHelper::_('grid.checkall'); ?>
                         </th>
                         <?php foreach ($this->table['columns'] as $column) : ?>
@@ -34,10 +34,10 @@ HTMLHelper::_('formbehavior.chosen', 'select');
                                 <?= Text::_($column) ?>
                             </th>
                         <?php endforeach; ?>
-                        <th width="10%">
+                        <th>
                             Source
                         </th>
-                        <th width="2%">
+                        <th>
                             <?= Text::_('COM_SCOUTORG_BRANCH_ID_LABEL') ?>
                         </th>
                     </tr>
