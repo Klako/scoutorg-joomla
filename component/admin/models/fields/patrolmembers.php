@@ -5,7 +5,7 @@ use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die('Restricted access');
 
-FormHelper::loadFieldClass('list');
+require_once 'scoutorgselect.php';
 
 class JFormFieldMembers extends JFormFieldList
 {
@@ -24,17 +24,22 @@ class JFormFieldMembers extends JFormFieldList
         jimport('scoutorg.loader');
         $scoutgroup = ScoutorgLoader::loadGroup();
 
-        $options = [];
-
-        if ($this->required) {
-            $options[] = JHtmlSelect::option('', Text::_('JGLOBAL_SELECT_AN_OPTION'));
-        } else {
-            $options[] = JHtmlSelect::option('', Text::_('JNONE'));
+        /** @var self|FormField $this */
+        $patrolUid = $this->form->getValue('uid');
+        if ($patrolUid) {
+            $patrolUid = Uid::deserialize($this->form->getValue('uid'));
         }
 
-        foreach ($scoutgroup->members as $member) {
-            $name = "{$member->personInfo->firstname} {$member->personInfo->lastname}";
-            $options[] = JHtmlSelect::option("{$member->source}:{$member->id}", $name);
+        $scoutgroup = ScoutorgLoader::loadGroup();
+
+        $options  = array();
+
+        foreach ($scoutgroup->troops as $troop) {
+            if ($troop->branch === null || ($patrolUid && $troop->branch->uid == $patrolUid)) {
+                $options[] = JHtmlSelect::option($troop->uid->serialize(), $troop->name);
+            } else {
+                $options[] = JHtmlSelect::option($troop->uid->serialize(), $troop->name, ['disable' => true]);
+            }
         }
 
         $options = array_merge(parent::getOptions(), $options);

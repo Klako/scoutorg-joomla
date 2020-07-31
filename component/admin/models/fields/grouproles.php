@@ -5,9 +5,9 @@ use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die('Restricted access');
 
-FormHelper::loadFieldClass('list');
+require_once 'duallist.php';
 
-class JFormFieldGrouproles extends JFormFieldList
+class JFormFieldGrouproles extends JFormFieldDuallist
 {
     /**
      * The field type.
@@ -35,8 +35,6 @@ class JFormFieldGrouproles extends JFormFieldList
         foreach ($scoutgroup->groupRoles as $grouprole) {
             $options[] = JHtmlSelect::option($grouprole->uid->serialize(), $grouprole->name);
         }
-
-        $options = array_merge(parent::getOptions(), $options);
 
         return $options;
     }

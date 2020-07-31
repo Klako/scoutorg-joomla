@@ -15,10 +15,10 @@
         />
         <field
             name="troops"
-            type="branchtroops"
+            type="orgarrayselect"
             label="Troops"
             description="The troops for this branch"
-            multiple="true"
+            relation="onetomany"
          />
     </fieldset>
 </form>

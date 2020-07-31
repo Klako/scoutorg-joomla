@@ -15,7 +15,7 @@
         />
         <field
             name="grouproles"
-            type="grouproles"
+            type="orgarrayselect"
             label="Group Roles"
             description="Group roles of the member"
             multiple="true"

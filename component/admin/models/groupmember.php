@@ -28,10 +28,14 @@ class ScoutOrgModelGroupmember extends OrgObjectModel
             $data['uid'] = $groupmember->uid->serialize();
             $personInfo = $groupmember->member->personInfo;
             $data['name'] = $personInfo->firstname . ' ' . $personInfo->lastname;
-            $data['grouproles'] = [];
-            foreach ($groupmember->roles as $role) {
-                $data['grouproles'][] = $role->uid->serialize();
-            }
+            $scoutgroup = ScoutorgLoader::loadGroup();
+            $data['grouproles'] = [
+                $scoutgroup->groupRoles,
+                $groupmember->roles,
+                function ($grouprole){
+                    return $grouprole->name;
+                }
+            ];
         }
         return $data;
     }

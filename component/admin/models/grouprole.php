@@ -28,6 +28,12 @@ class ScoutOrgModelGrouprole extends OrgObjectModel
         if ($grouprole) {
             $data['uid'] = $grouprole->uid->serialize();
             $data['name'] = $grouprole->name;
+            $scoutgroup = ScoutorgLoader::loadGroup();
+            foreach ($scoutgroup->members as $groupmember) {
+                if ($groupmember->roles->exists($grouprole->uid)) {
+                    $data['members'][] = $groupmember->uid->serialize();
+                }
+            }
         }
         return $data;
     }
@@ -39,6 +45,12 @@ class ScoutOrgModelGrouprole extends OrgObjectModel
         }
 
         if (!$this->syncObjectBase('#__scoutorg_grouproles', $uid, ['name' => $data['name']])) {
+            return false;
+        }
+
+        $members = $data['members'] ?? [];
+
+        if (!$this->syncObjectLinks('#__scoutorg_groupmemberroles', $uid, 'role', 'groupmember', $members)) {
             return false;
         }
 

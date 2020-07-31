@@ -4,13 +4,11 @@ defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Scouterna\Scoutorg\Model\Uid;
 
-FormHelper::loadFieldClass('list');
+require_once 'duallist.php';
 
-class JFormFieldBranchtroops extends JFormFieldList
+class JFormFieldBranchtroops extends JFormFieldDuallist
 {
     protected function getOptions()
     {
@@ -33,8 +31,6 @@ class JFormFieldBranchtroops extends JFormFieldList
                 $options[] = JHtmlSelect::option($troop->uid->serialize(), $troop->name, ['disable' => true]);
             }
         }
-
-        $options = array_merge(parent::getOptions(), $options);
 
         return $options;
     }

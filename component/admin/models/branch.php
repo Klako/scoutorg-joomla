@@ -33,9 +33,15 @@ class ScoutorgModelBranch extends OrgObjectModel
             $data['uid'] = $branch->uid->serialize();
             $data['name'] = $branch->name;
             $data['troops'] = [];
-            foreach ($branch->troops as $troop) {
-                $data['troops'][] = $troop->uid->serialize();
-            }
+            $scoutgroup = ScoutorgLoader::loadGroup();
+            $data['troops'] = [
+                $scoutgroup->troops,
+                $branch->troops,
+                function ($troop) {
+                    return $troop->name;
+                },
+                'branch'
+            ];
         }
         return $data;
     }
