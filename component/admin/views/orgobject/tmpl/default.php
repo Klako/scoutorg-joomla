@@ -14,19 +14,20 @@ $action = Route::_('index.php?option=com_scoutorg');
 ?>
 <form action="<?= $action ?>" method="post" name="adminForm" id="adminForm" class="form">
     <div class="form-horizontal">
+        <?= JHtmlBootstrap::startTabSet('scoutorgtabs', ['active' => array_values($form->getFieldsets())[0]->name]) ?>
         <?php foreach ($form->getFieldsets() as $name => $fieldset) : ?>
-            <fieldset class="adminform">
-                <legend><?php echo Text::_($fieldset->label); ?></legend>
-                <div class="row-fluid">
-                    <div class="span6">
-                        <?php /** @var FormField $field */
-                        foreach ($form->getFieldset($name) as $field) :  ?>
-                            <?= $field->renderField() ?>
-                        <?php endforeach; ?>
-                    </div>
+            <?= JHtmlBootstrap::addTab('scoutorgtabs', $name, Text::_($fieldset->label)) ?>
+            <div class="row-fluid">
+                <div class="span6">
+                    <?php /** @var FormField $field */
+                    foreach ($form->getFieldset($name) as $field) :  ?>
+                        <?= $field->renderField() ?>
+                    <?php endforeach; ?>
                 </div>
-            </fieldset>
+            </div>
+            <?= JHtmlBootstrap::endTab() ?>
         <?php endforeach; ?>
+        <?= JHtmlBootstrap::endTabSet() ?>
     </div>
     <input type="hidden" name="task" value="<?= $this->type ?>.edit" />
     <?php echo HTMLHelper::_('form.token'); ?>

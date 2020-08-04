@@ -19,6 +19,8 @@
             description="COM_SCOUTORG_TROOP_BRANCH_DESC"
             required="false"
         />
+    </fieldset>
+    <fieldset name="patrols" label="weh">
         <field
             name="patrols"
             type="orgobjectsubform"
@@ -29,7 +31,7 @@
             layout="joomla.form.field.subform.repeatable-table"
         >
             <form>
-                <field 
+                <field
                     name="uid"
                     type="hidden"
                 />
