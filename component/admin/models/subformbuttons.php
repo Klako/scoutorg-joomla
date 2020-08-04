@@ -4,18 +4,30 @@ class SubformButtons implements ArrayAccess
 {
     private $add;
     private $addIndex = 0;
+    private $defaultAdd;
 
     private $remove;
     private $removeIndex = 0;
+    private $defaultRemove;
 
     private $move;
     private $moveIndex = 0;
+    private $defaultMove;
 
-    public function __construct(array $add = [], array $remove = [], array $move = [])
-    {
+    public function __construct(
+        array $add = [],
+        bool $defaultAdd,
+        array $remove = [],
+        bool $defaultRemove,
+        array $move = [],
+        bool $defaultMove
+    ) {
         $this->add = $add;
+        $this->defaultAdd = $defaultAdd;
         $this->remove = $remove;
+        $this->defaultRemove = $defaultRemove;
         $this->move = $move;
+        $this->defaultMove = $defaultMove;
     }
 
     public function offsetExists($offset)
@@ -33,19 +45,19 @@ class SubformButtons implements ArrayAccess
     {
         if ($offset == 'add') {
             if ($this->addIndex == count($this->add)) {
-                return true;
+                return $this->defaultAdd;
             } else {
                 return $this->add[$this->addIndex++];
             }
         } elseif ($offset == 'remove') {
             if ($this->removeIndex == count($this->remove)) {
-                return true;
+                return $this->defaultRemove;
             } else {
                 return $this->remove[$this->removeIndex++];
             }
         } elseif ($offset == 'move') {
             if ($this->moveIndex == count($this->move)) {
-                return true;
+                return $this->defaultMove;
             } else {
                 return $this->move[$this->moveIndex++];
             }

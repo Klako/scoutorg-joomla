@@ -28,7 +28,7 @@ class ScoutOrgModelTroop extends OrgObjectModel
     protected function preprocessForm(JForm $form, $data, $group = 'content')
     {
         parent::preprocessForm($form, $data, $group);
-        $buttons = new SubformButtons([true], $this->removePattern, [true]);
+        $buttons = new SubformButtons([true], false, $this->removePattern, true, [], false);
         $form->subformbuttons = $buttons;
         jimport('scoutorg.loader');
         if (($uid = Uid::deserialize($data['uid'] ?? '')) && $uid->getSource() != 'joomla') {
