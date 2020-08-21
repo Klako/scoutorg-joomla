@@ -33,7 +33,7 @@ class JFormFieldOrgobjectsubform extends JFormFieldSubform
 
         $html[] = <<<HTML
         <input type="text" id="{$this->fieldname}-search" placeholder="{$filterText}" />
-        <span id="{$this->fieldname}-search-label">test</span>
+        <span id="{$this->fieldname}-search-label">No results</span>
         HTML;
 
         $html[] = parent::getInput();
