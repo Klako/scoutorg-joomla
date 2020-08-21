@@ -163,7 +163,7 @@ abstract class OrgObjectController extends BaseController
 
     private function setRedirectToList()
     {
-        $this->setRedirect(Route::_("index.php?option=com_scoutorg&view=orgobjects&type={$this->type}", false));
+        $this->setRedirect(Route::_("index.php?option=com_scoutorg&view=orgtable", false));
     }
 
     private function setRedirectToView($uid = '')
